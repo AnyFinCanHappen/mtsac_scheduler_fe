@@ -26,7 +26,7 @@ class TermBar extends Component{
         this.props.setTerm(e);
     }
 
-    dropDownMenu = () => {
+    termMenu = () => {
         const {TermDesc} = Terms;
         const keyList = this.keysIntoList();
         const {Term} = this.state;
@@ -47,7 +47,7 @@ class TermBar extends Component{
         return(
             <div>
                 Term
-                <this.dropDownMenu/>
+                <this.termMenu/>
             </div>
         );
     }
