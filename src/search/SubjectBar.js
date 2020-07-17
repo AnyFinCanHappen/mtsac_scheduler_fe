@@ -24,11 +24,15 @@ class SubjectBar extends Component{
         if(sel_subj === ""){
             title = "Select department."
         }
+        else if(sel_subj === "all"){
+            title = "All Departments"
+        }
         else{
             title = Subjects[sel_subj];
         }
         return(
             <DropdownButton title = {title} onSelect = {this.handleSelect}>
+            <DropDown.Item key = {-1} eventKey = "all">All Departments</DropDown.Item>
                 {
                     Object.keys(Subjects).map((key,index) =>{
                         return(
