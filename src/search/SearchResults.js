@@ -69,51 +69,50 @@ class SearchResults extends Component{
                             const {meetings} = meetingTimes;
                             return(
                                 <tbody key = {index}>
-                                <tr>
-                                    <td>+</td>
-                                    <td>{key.CRN}</td>
-                                    <td>{key.instructor}</td>
-                                    <td>
-                                        {
-                                            meetings[0].info === "available" ? 
-                                            meetings[0].days + " " + meetings[0].time :
-                                            meetings[0].description
-                                        }
-                                    </td>
-                                    <td>{location[0]}</td>
-                                    <td>{key.activated + "/" + key.capacity}</td>
-                                    <td>{key.status}</td>
-                                </tr>
-                                {
-                                    meetings.length > 1 &&
-                                    meetings.map((key,index) => {
-                                        if(index !== 0){
-                                            return(
-                                                <tr key = {key}>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>
-                                                        {
-                                                            key.info === "available" ?
-                                                            key.days + " " + key.time :
-                                                            key.description
+                                    <tr>
+                                        <td>+</td>
+                                        <td>{key.CRN}</td>
+                                        <td>{key.instructor}</td>
+                                        <td>
+                                            {
+                                                meetings[0].info === "available" ? 
+                                                meetings[0].days + " " + meetings[0].time :
+                                                meetings[0].description
+                                            }
+                                        </td>
+                                        <td>{location[0]}</td>
+                                        <td>{key.activated + "/" + key.capacity}</td>
+                                        <td>{key.status}</td>
+                                    </tr>
+                                    {meetings.length > 1 &&
+                                        meetings.map((key,index) => {
+                                            if(index !== 0){
+                                                return(
+                                                    <tr key = {key}>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>
+                                                            {
+                                                                key.info === "available" ?
+                                                                key.days + " " + key.time :
+                                                                key.description
+                                                            }
+                                                        </td>
+                                                        {location.length > 1 &&
+                                                            <td>{location[index]}</td>
                                                         }
-                                                    </td>
-                                                    {location.length > 1 &&
-                                                        <td>{location[index]}</td>
-                                                    }
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                            );
-                                        }
-                                        else{
-                                            return null;
-                                        }
-                                    })
-                                }
-                            </tbody>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                );
+                                            }
+                                            else{
+                                                return null;
+                                            }
+                                        })
+                                    }
+                                </tbody>
                             );
                         })}
                     </Table>
@@ -122,7 +121,6 @@ class SearchResults extends Component{
             })
         );
     }
-
 
     render(){
         const {result} = this.state;
