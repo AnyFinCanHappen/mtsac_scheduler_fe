@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import DropDown from 'react-bootstrap/Dropdown';
 import Subject from "../constants/Subjects.json"
-import { DropdownButton } from "react-bootstrap";
+import "../css/search.css"
+
+
 
 class SubjectBar extends Component{
     constructor(props){
@@ -31,18 +33,24 @@ class SubjectBar extends Component{
             title = Subjects[sel_subj];
         }
         return(
-            <DropdownButton title = {title} onSelect = {this.handleSelect}>
-            <DropDown.Item key = {-1} eventKey = "all">All Departments</DropDown.Item>
-                {
-                    Object.keys(Subjects).map((key,index) =>{
-                        return(
-                            <DropDown.Item key = {index} eventKey = {key}>
-                                {Subjects[key]}
-                            </DropDown.Item>
-                        );
-                    })
-                }
-            </DropdownButton>
+            
+            <DropDown onSelect = {this.handleSelect} >
+                <DropDown.Toggle  onSelect = {this.handleSelect}>
+                    {title}
+                </DropDown.Toggle>
+                <DropDown.Menu className = "dropdown-menu-search">
+                    <DropDown.Item key = {-1} eventKey = "all">All Departments</DropDown.Item>
+                    {
+                        Object.keys(Subjects).map((key,index) =>{
+                            return(
+                                <DropDown.Item key = {index} eventKey = {key}>
+                                    {Subjects[key]}
+                                </DropDown.Item>
+                            );
+                        })
+                    }                    
+                </DropDown.Menu>
+            </DropDown>    
         );
     }
 
