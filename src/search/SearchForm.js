@@ -142,7 +142,7 @@ class SearchForm extends Component{
         else{
             return(
                 <div>
-                    <SearchResults query = {query}/>
+                    <SearchResults query = {query} pushCourse = {this.props.pushCourse}/>
                 </div>
             );
         }

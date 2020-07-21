@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import Courses from "../util/Courses";
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Popover  from 'react-bootstrap/Popover';
 
 class SearchResults extends Component{
     constructor(props){
@@ -46,13 +48,28 @@ class SearchResults extends Component{
         });
     }
 
+    popover = (course) =>{
+        return(
+            <Popover id = "popover-basic">
+                <Popover.Title as = "h3">{course.course_id}</Popover.Title>
+                <Popover.Content>
+                    {course.course_title}
+                    <br></br> 
+                    {course.course_description}
+                </Popover.Content> 
+            </Popover>
+        );
+    }
+
     displayClasses = () =>{
         const{classInfo, classDescription} = this.state;
         return(
             classDescription.map((className,num)=>{
                 return(
                     <div key = {num}>
-                    <Button variant = "primary" size = "lg">{className.course_id}</Button>
+                    <OverlayTrigger trigger = "click" rootClose placement = "right" overlay = {this.popover(className)}>     
+                        <Button variant = "primary" size = "lg">{className.course_id}</Button>
+                    </OverlayTrigger>   
                     <Table striped bordered size = "sm" key = {num}>
                         <thead>
                                 <tr>
@@ -72,7 +89,9 @@ class SearchResults extends Component{
                             return(
                                 <tbody key = {index}>
                                     <tr>
-                                        <td>+</td>
+                                        <td>
+                                            <Button size = "sm" onClick = {(e) => this.props.pushCourse(e,key)}>+</Button>
+                                        </td>
                                         <td>{key.CRN}</td>
                                         <td>{key.cred}</td>
                                         <td>{key.instructor}</td>
@@ -87,35 +106,33 @@ class SearchResults extends Component{
                                         <td>{key.activated + "/" + key.capacity}</td>
                                         <td>{key.status}</td>
                                     </tr>
-                                    {meetings.length > 1 &&
-                                        meetings.map((key,index) => {
-                                            if(index !== 0){
-                                                return(
-                                                    <tr key = {key}>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td>
-                                                            {
-                                                                key.info === "available" ?
-                                                                key.days + " " + key.time :
-                                                                key.description
-                                                            }
-                                                        </td>
-                                                        {location.length > 1 &&
-                                                            <td>{location[index]}</td>
+                                    {meetings.length > 1 && meetings.map((key,index) => {
+                                        if(index !== 0){
+                                            return(
+                                                <tr key = {key}>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>
+                                                        {
+                                                            key.info === "available" ?
+                                                            key.days + " " + key.time :
+                                                            key.description
                                                         }
-                                                        <td></td>
-                                                        <td></td>
-                                                    </tr>
-                                                );
-                                            }
-                                            else{
-                                                return null;
-                                            }
-                                        })
-                                    }
+                                                    </td>
+                                                    {location.length > 1 &&
+                                                        <td>{location[index]}</td>
+                                                    }
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            );
+                                        }
+                                        else{
+                                            return null;
+                                        }
+                                    })}
                                 </tbody>
                             );
                         })}
