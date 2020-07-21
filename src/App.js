@@ -5,28 +5,42 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import "./css/column.css"
+import EventMaker from "./util/EventMaker";
 
 class App extends Component{
   constructor(props){
     super(props);
     this.state = {
-      selectedCourses:{}
+      selectedCourses:{},
+      eventList:[]
     }
   }
-  
+
+  /*
+    events {
+      title,
+      time,
+      resource {
+        location,
+        teacher name
+      }
+    }
+  */
   pushCourse = (e,course) =>{
-    let {selectedCourses} = this.state;
+
+    let {selectedCourses, eventList} = this.state;
     if(!selectedCourses[course.CRN]){
-      const {meetingTimes, location} = course;
-      const {meetings} = meetingTimes;
+      let events = EventMaker.parseTime(course);
       let courseInfo = {
-        meetings:meetings,
-        location:location,
         name:course.name
       }
+      events.forEach(event =>{
+        eventList.push(event);
+      })
       selectedCourses[course.CRN] = courseInfo
       this.setState({
-        selectedCourses: selectedCourses
+        selectedCourses: selectedCourses,
+        eventList:eventList
       })
     }
   }
