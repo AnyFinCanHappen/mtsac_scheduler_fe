@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Courses from "../util/Courses";
 import Table from 'react-bootstrap/Table';
-
+import Button from 'react-bootstrap/Button';
 
 class SearchResults extends Component{
     constructor(props){
@@ -47,16 +47,18 @@ class SearchResults extends Component{
     }
 
     displayClasses = () =>{
-        const{classInfo} = this.state;
+        const{classInfo, classDescription} = this.state;
         return(
-            Object.keys(classInfo).map((className,num)=>{
+            classDescription.map((className,num)=>{
                 return(
-                    <div key = {num}>{className}
+                    <div key = {num}>
+                    <Button variant = "primary" size = "lg">{className.course_id}</Button>
                     <Table striped bordered size = "sm" key = {num}>
                         <thead>
                                 <tr>
                                     <th>Add</th>
                                     <th>CRN</th>
+                                    <th>Cred</th>
                                     <th>Instructor</th>
                                     <th>Times</th>
                                     <th>Location</th>
@@ -64,7 +66,7 @@ class SearchResults extends Component{
                                     <th>Status</th>
                                 </tr>
                         </thead>
-                        {classInfo[className].map((key, index) =>{
+                        {classInfo[className.course_id].map((key, index) =>{
                             const {meetingTimes, location} = key;
                             const {meetings} = meetingTimes;
                             return(
@@ -72,6 +74,7 @@ class SearchResults extends Component{
                                     <tr>
                                         <td>+</td>
                                         <td>{key.CRN}</td>
+                                        <td>{key.cred}</td>
                                         <td>{key.instructor}</td>
                                         <td>
                                             {
@@ -89,6 +92,7 @@ class SearchResults extends Component{
                                             if(index !== 0){
                                                 return(
                                                     <tr key = {key}>
+                                                        <td></td>
                                                         <td></td>
                                                         <td></td>
                                                         <td></td>
