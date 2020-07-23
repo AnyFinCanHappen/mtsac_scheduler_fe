@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import SearchForm from "./search/SearchForm";
+import Calendar from "./calender/Calendar"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
@@ -15,17 +16,6 @@ class App extends Component{
       eventList:[]
     }
   }
-
-  /*
-    events {
-      title,
-      time,
-      resource {
-        location,
-        teacher name
-      }
-    }
-  */
   pushCourse = (e,course) =>{
 
     let {selectedCourses, eventList} = this.state;
@@ -49,8 +39,8 @@ class App extends Component{
       <div>
         <Container fluid>
           <Row>
-            <Col>
-              Schedule, implement soon.
+            <Col className = "column-scroll">
+              <Calendar eventList = {this.state.eventList}/>
             </Col>
             <Col className = "column-scroll">
               <SearchForm pushCourse = {this.pushCourse}/>

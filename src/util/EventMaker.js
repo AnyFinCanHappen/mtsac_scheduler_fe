@@ -63,7 +63,6 @@ function timeToMilitary(time){
 
 
 function parseTime(course) {
-    console.log(course);
     const {meetingTimes, name, instructor} = course;
     const {meetings} = meetingTimes;
     let eventList = [];
@@ -71,7 +70,6 @@ function parseTime(course) {
         const {days,time,info} = meeting;
         if(info === "available"){
             let dayList = String(days).split(" ");
-            console.log(dayList);
             dayList.forEach(day =>{
                 let startEndTime = timeToMilitary(time);
                 let event = {
@@ -83,7 +81,6 @@ function parseTime(course) {
                         instructor:instructor
                     }
                 }
-                console.log(event);
                 eventList.push(event)    
             })
         }
