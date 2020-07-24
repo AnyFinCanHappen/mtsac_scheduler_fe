@@ -63,10 +63,10 @@ function timeToMilitary(time){
 
 
 function parseTime(course) {
-    const {meetingTimes, name, instructor} = course;
+    const {meetingTimes, name, instructor,location} = course;
     const {meetings} = meetingTimes;
     let eventList = [];
-    meetings.forEach(meeting =>{
+    meetings.forEach((meeting,index) =>{
         const {days,time,info} = meeting;
         if(info === "available"){
             let dayList = String(days).split(" ");
@@ -77,8 +77,10 @@ function parseTime(course) {
                     start: new Date(2018,0, dayToDate(day), startEndTime[0].hour, startEndTime[0].minute),
                     end: new Date(2018,0, dayToDate(day), startEndTime[1].hour, startEndTime[1].minute),
                     allDay:false,
-                    resourse:{
-                        instructor:instructor
+                    resource:{
+                        instructor:instructor,
+                        CRN: course.CRN,
+                        location: location[index]
                     }
                 }
                 eventList.push(event)    
