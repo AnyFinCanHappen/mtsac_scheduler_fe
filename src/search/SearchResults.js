@@ -26,7 +26,9 @@ class SearchResults extends Component{
         .then(response =>{
             console.log(response);
             const classes = response.data.classInfo;
+            const descriptions = response.data.classDescription;
             let map = {}
+            let classDescriptionMap = {}
             classes.forEach(item =>{
                 if(map[item.name]){
                     map[item.name].push(item);
@@ -36,10 +38,16 @@ class SearchResults extends Component{
                     map[item.name].push(item);
                 }
             });
+            descriptions.forEach(item =>{
+                if(!classDescriptionMap[item.course_id]){
+                    classDescriptionMap[item.course_id] = item;
+                }
+            })
             this.setState({
                 result:true,
-                classDescription:response.data.classDescription,
-                classInfo:map
+                classDescription:classDescriptionMap,
+                classInfo:map,
+                courseOrder:response.data.courseOrder
             });
             console.log("Got data!");
         })
@@ -48,27 +56,34 @@ class SearchResults extends Component{
         });
     }
 
-    popover = (course) =>{
-        return(
-            <Popover id = "popover-basic">
-                <Popover.Title as = "h3">{course.course_id}</Popover.Title>
-                <Popover.Content>
-                    {course.course_title}
-                    <br></br> 
-                    {course.course_description}
-                </Popover.Content> 
-            </Popover>
-        );
+    popover = (className) =>{
+        const {classDescription} = this.state;
+        const course = classDescription[className];
+        if(!classDescription[className]){
+            return null
+        }
+        else{
+            return(
+                <Popover id = "popover-basic">
+                    <Popover.Title as = "h3">{course.course_id}</Popover.Title>
+                    <Popover.Content>
+                        {course.course_title}
+                        <br></br> 
+                        {course.course_description}
+                    </Popover.Content> 
+                </Popover>
+            );
+        }   
     }
 
     displayClasses = () =>{
-        const{classInfo, classDescription} = this.state;
+        const{classInfo, courseOrder} = this.state;
         return(
-            classDescription.map((className,num)=>{
+            courseOrder.map((className,num)=>{
                 return(
                     <div key = {num}>
                     <OverlayTrigger trigger = "click" rootClose placement = "right" overlay = {this.popover(className)}>     
-                        <Button variant = "primary" size = "lg">{className.course_id}</Button>
+                        <Button variant = "primary" size = "lg">{className}</Button>
                     </OverlayTrigger>   
                     <Table striped bordered size = "sm" key = {num}>
                         <thead>
@@ -83,7 +98,7 @@ class SearchResults extends Component{
                                     <th>Status</th>
                                 </tr>
                         </thead>
-                        {classInfo[className.course_id].map((key, index) =>{
+                        {classInfo[className].map((key, index) =>{
                             const {meetingTimes, location} = key;
                             const {meetings} = meetingTimes;
                             return(
