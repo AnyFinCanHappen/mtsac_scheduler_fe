@@ -71,10 +71,7 @@ class Calendar extends Component{
                     popup = {true}
                 />
                 {popoverData !== null &&
-                <Overlay
-                    show = {showPopover}
-                    target = {target}
-                >
+                <Overlay show = {showPopover} target = {target} >
                     <Popover id = "popover-basic">
                     <Popover.Title as = "h3">{popoverData.title}</Popover.Title>
                     <Popover.Content>

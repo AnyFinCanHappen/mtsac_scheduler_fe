@@ -3,6 +3,12 @@ import TermBar from "./TermBar";
 import SubjectBar from "./SubjectBar";
 import Terms from "../constants/Terms.json";
 import SearchResults from "./SearchResults";
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import "../css/nav_bar.css"
+
+
+
 
 /*
     Mt. Sac search queries has these paremeters
@@ -129,23 +135,33 @@ class SearchForm extends Component{
 
     render(){
         const {isSearch,query} = this.state;
-        if(!isSearch){
-            return(
-                <div>
-                    Search Page
-                    <TermBar setTerm = {this.setTerm}/>
-                    <SubjectBar setSubject = {this.setSubject}/>
-                    <button onClick = {this.handleClick}>Search</button>
-                </div>
-            );
-        }
-        else{
-            return(
-                <div>
-                    <SearchResults query = {query} pushCourse = {this.props.pushCourse}/>
-                </div>
-            );
-        }
+        return(
+            <div>
+                <Navbar variant="nav-link" bg="dark" sticky = "top">
+                    <Nav className='m-auto'>
+                        <Nav.Item >
+                            <Nav.Link onClick = {() => {this.setState({isSearch:false})}} >
+                                Search
+                            </Nav.Link>
+                        </Nav.Item>
+                    </Nav>
+                </Navbar>
+                {!isSearch ? 
+                    <div>
+                        Search Page
+                        <TermBar setTerm = {this.setTerm}/>
+                        <SubjectBar setSubject = {this.setSubject}/>
+                        <br></br>
+                        <button onClick = {this.handleClick}>Search</button> 
+                    </div> 
+                    :
+                    <div>
+                        <SearchResults query = {query} pushCourse = {this.props.pushCourse}/>
+                    </div>
+                }
+            </div>
+        );
+
     }
 }
 

@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import SearchForm from "./search/SearchForm";
 import Calendar from "./calender/Calendar"
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import "./css/column.css"
 import EventMaker from "./util/EventMaker";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "./css/column.css"
 
 class App extends Component{
   constructor(props){
