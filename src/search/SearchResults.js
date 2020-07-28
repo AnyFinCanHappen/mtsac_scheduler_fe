@@ -105,7 +105,11 @@ class SearchResults extends Component{
                                 <tbody key = {key.crn + ":" + index}>
                                     <tr>
                                         <td>
-                                            <Button size = "sm" onClick = {(e) => this.props.pushCourse(e,key)}>+</Button>
+                                            {
+                                                key.status !== "Hold" && key.status !== "Cancelled" ?
+                                                <Button size = "sm" onClick = {(e) => this.props.pushCourse(e,key)}>+</Button> :
+                                                "+"
+                                            }
                                         </td>
                                         <td>{key.CRN}</td>
                                         <td>{key.cred}</td>
