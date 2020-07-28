@@ -43,7 +43,16 @@ class Calendar extends Component{
         }
     }
 
-
+    Event = ({event}) =>{
+        return(
+            <span>
+                <strong>{event.title}</strong>
+                <br></br>
+                {"CRN: " + event.resource.CRN}
+            </span>
+            
+        );
+    }
 
     render(){
         const {showPopover, target, popoverData} = this.state;
@@ -69,6 +78,7 @@ class Calendar extends Component{
                     timeslots={2}
                     onSelectEvent = {this.handleEventClick}
                     popup = {true}
+                    components = {{event:this.Event}}
                 />
                 {popoverData !== null &&
                 <Overlay show = {showPopover} target = {target} >
