@@ -5,6 +5,8 @@ import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import Button from 'react-bootstrap/Button';
+
 
 class Block extends Component{
     state = {}
@@ -71,7 +73,10 @@ class Block extends Component{
                         <Col key = {item + ":" + index} style={{padding: '5px'}}>
                         <Card>
                             <Card.Body>
-                                <Card.Title>{course.name}</Card.Title>
+                                <Card.Title>
+                                    {course.name}
+                                    <Button size = "sm" onClick = {(e) => this.props.deleteCourse(e, item)}>X</Button>
+                                </Card.Title>
                                 <Card.Text>
                                     {"CRN: " + item}
                                     {"Instructor: " + course.instructor}

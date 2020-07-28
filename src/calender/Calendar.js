@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Popover  from 'react-bootstrap/Popover';
 import Overlay from 'react-bootstrap/Overlay';
+import Button from 'react-bootstrap/Button';
 
 
 
@@ -41,6 +42,11 @@ class Calendar extends Component{
                 showPopover: !showPopover
             })
         }
+    }
+
+    handleDelete = (e, CRN) =>{
+        this.props.deleteCourse(e,CRN);
+        this.setState({showPopover:false});
     }
 
     Event = ({event}) =>{
@@ -83,13 +89,17 @@ class Calendar extends Component{
                 {popoverData !== null &&
                 <Overlay show = {showPopover} target = {target} >
                     <Popover id = "popover-basic">
-                    <Popover.Title as = "h3">{popoverData.title}</Popover.Title>
+                    <Popover.Title as = "h3">
+                        {popoverData.title}
+                        <Button size = "sm" onClick = {(e) => this.handleDelete(e, popoverData.CRN)} > X</Button>
+                    </Popover.Title>
                     <Popover.Content>
                         {"CRN: " + popoverData.CRN}
                         <br/> 
                         {"Instructor: " + popoverData.instructor}
                         <br/>
                         {"Location: " + popoverData.location}
+
                     </Popover.Content> 
                     </Popover>
                 </Overlay>}

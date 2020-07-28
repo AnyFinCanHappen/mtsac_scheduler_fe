@@ -22,7 +22,6 @@ class App extends Component{
     }
   }
   pushCourse = (e,course) =>{
-
     let {selectedCourses, eventList} = this.state;
     if(!selectedCourses[course.CRN]){
       let events = EventMaker.parseTime(course);
@@ -31,16 +30,25 @@ class App extends Component{
         instructor:course.instructor,
         meetingTimes:course.meetingTimes,
         location:course.location
-      }
+      };
       events.forEach(event =>{
         eventList.push(event);
-      })
-      selectedCourses[course.CRN] = courseInfo
+      });
+      selectedCourses[course.CRN] = courseInfo;
       this.setState({
         selectedCourses: selectedCourses,
         eventList:eventList
-      })
+      });
     }
+  }
+  deleteCourse = (e, CRN) =>{
+    let {selectedCourses, eventList} = this.state;
+    delete selectedCourses[CRN];
+    let updatedEventList = EventMaker.removeEvent(eventList, CRN);
+    this.setState({
+      selectedCourses: selectedCourses,
+      eventList: updatedEventList
+    });
   }
   render(){
     const {isBlockForm} = this.state;
@@ -59,8 +67,8 @@ class App extends Component{
                   </Nav.Link>
                 </Nav>
               </Navbar>
-              {isBlockForm ?  <Block selectedCourses = {this.state.selectedCourses}></Block> :
-                <Calendar eventList = {this.state.eventList}/>
+              {isBlockForm ?  <Block selectedCourses = {this.state.selectedCourses} deleteCourse = {this.deleteCourse}></Block> :
+                <Calendar eventList = {this.state.eventList} deleteCourse = {this.deleteCourse}/>
               }
             </Col>
             <Col className = "column-scroll">
