@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
-import SearchForm from "./search/SearchForm";
-import Calendar from "./calender/Calendar"
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+
 import EventMaker from "./util/EventMaker";
+import SearchForm from "./search/SearchForm";
+import Calendar from "./calender/Calendar"
+import Block from "./block/Block";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./css/column.css"
 
@@ -13,7 +17,8 @@ class App extends Component{
     super(props);
     this.state = {
       selectedCourses:{},
-      eventList:[]
+      eventList:[],
+      isBlockForm: false
     }
   }
   pushCourse = (e,course) =>{
@@ -22,7 +27,10 @@ class App extends Component{
     if(!selectedCourses[course.CRN]){
       let events = EventMaker.parseTime(course);
       let courseInfo = {
-        name:course.name
+        name:course.name,
+        instructor:course.instructor,
+        meetingTimes:course.meetingTimes,
+        location:course.location
       }
       events.forEach(event =>{
         eventList.push(event);
@@ -35,12 +43,25 @@ class App extends Component{
     }
   }
   render(){
+    const {isBlockForm} = this.state;
     return ( 
       <div>
         <Container fluid>
           <Row>
             <Col className = "column-scroll">
-              <Calendar eventList = {this.state.eventList}/>
+              <Navbar variant="nav-link" bg="dark" sticky = "top">
+                <Nav className='m-auto'>
+                  <Nav.Link onClick = {() => {this.setState({isBlockForm:false})}} >
+                      Calendar Form
+                  </Nav.Link>
+                  <Nav.Link onClick = {() => {this.setState({isBlockForm:true})}} >
+                      Block Form
+                  </Nav.Link>
+                </Nav>
+              </Navbar>
+              {isBlockForm ?  <Block selectedCourses = {this.state.selectedCourses}></Block> :
+                <Calendar eventList = {this.state.eventList}/>
+              }
             </Col>
             <Col className = "column-scroll">
               <SearchForm pushCourse = {this.pushCourse}/>
