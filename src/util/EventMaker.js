@@ -93,28 +93,30 @@ function parseTime(course) {
 
 
 function removeEvent(events, CRN){
+    let updateEvents = events;
     let start;
     let end;
     let isFound = false;
-    events.forEach((event, index) => {
+    updateEvents.forEach((event, index) => {
         const {resource} = event
         if(resource.CRN === CRN && !isFound){
             start = index;
-            console.log(start)
             isFound = true;
             
         }
         else if(resource.CRN !== CRN && isFound){
             end = index;
             isFound = false;
-            console.log(end)
         }
     });
     if(isFound){
-        end = events.length;
+        end = updateEvents.length;
     }
-    events.splice(start,end);
-    return events;
+    else if(start === undefined){
+        return updateEvents;
+    }
+    updateEvents.splice(start,end);
+    return updateEvents;
 }
 
 export default {
