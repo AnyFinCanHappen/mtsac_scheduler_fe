@@ -90,6 +90,34 @@ function parseTime(course) {
     return eventList;
 }
 
+
+
+function removeEvent(events, CRN){
+    let start;
+    let end;
+    let isFound = false;
+    events.forEach((event, index) => {
+        const {resource} = event
+        if(resource.CRN === CRN && !isFound){
+            start = index;
+            console.log(start)
+            isFound = true;
+            
+        }
+        else if(resource.CRN !== CRN && isFound){
+            end = index;
+            isFound = false;
+            console.log(end)
+        }
+    });
+    if(isFound){
+        end = events.length;
+    }
+    events.splice(start,end);
+    return events;
+}
+
 export default {
-    parseTime
+    parseTime,
+    removeEvent
 };
