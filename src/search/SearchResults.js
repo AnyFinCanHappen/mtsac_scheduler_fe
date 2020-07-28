@@ -102,7 +102,7 @@ class SearchResults extends Component{
                             const {meetingTimes, location} = key;
                             const {meetings} = meetingTimes;
                             return(
-                                <tbody key = {index}>
+                                <tbody key = {key.crn + ":" + index}>
                                     <tr>
                                         <td>
                                             <Button size = "sm" onClick = {(e) => this.props.pushCourse(e,key)}>+</Button>
