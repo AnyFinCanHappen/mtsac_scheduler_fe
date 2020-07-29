@@ -96,7 +96,6 @@ class Block extends Component{
     render(){
         return(
             <div>
-                Block form
                 <this.displayCards></this.displayCards>
             </div>
         );

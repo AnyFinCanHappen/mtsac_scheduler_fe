@@ -6,6 +6,12 @@ async function getClasses(payload){
     return response;
 }
 
+async function saveClasses(payload){
+    let response = await Socket.sendPOSTHTTP(Constants.backendURL, Constants.saveClassesEP, payload);
+    return response
+}
+
 export default {
-    getClasses
+    getClasses,
+    saveClasses
 };
