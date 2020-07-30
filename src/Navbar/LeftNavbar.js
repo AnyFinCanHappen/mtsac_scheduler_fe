@@ -5,6 +5,8 @@ import Overlay from 'react-bootstrap/Overlay'
 import Popover  from 'react-bootstrap/Popover';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
+import Courses from "../util/Courses";
+
 
 class LeftNavbar extends Component{
     constructor(props){
@@ -17,15 +19,6 @@ class LeftNavbar extends Component{
             username:""
         }
     }
-
-    changeSaveSuccessful = (input) =>{
-        this.setState({saveSuccessful:input})
-    }
-
-    changeIsSaving = (input) =>{
-        this.setState({isSaving:input})
-    }
-
     handleChange = (event) =>{
         const {value} = event.target;
         this.setState({
@@ -40,6 +33,35 @@ class LeftNavbar extends Component{
             showPopover:!showPopover
         });
     }
+
+    saveCourse = (e, username) =>{
+        const classSuccessCode = 300;
+        let {selectedCourses, eventList} = this.props;
+        if(username !== ""){
+          const payload = {
+            selectedCourses: selectedCourses,
+            eventList: eventList,
+            username: username
+          };
+          this.setState({isSaving:true});
+          Courses.saveClasses(payload)
+          .then(response =>{
+            console.log(response);
+            if(response.data.resultCode === classSuccessCode){
+                this.setState({
+                    isSaving:false,
+                    saveSuccessful:true
+                })
+            }
+            else{
+              this.setState({
+                  isSavign:false,
+                  saveSuccessful:false
+              })
+            }
+          });
+        }
+      }
     getUsername = () =>{
         const {showPopover, target, isSaving, saveSuccessful,username} = this.state;
         return(
@@ -79,7 +101,7 @@ class LeftNavbar extends Component{
                         </Form.Text> 
                     }
                     </Form.Group>
-                    <Button onClick = {(e)=>{this.props.saveCourse(e, username)}}>Save</Button>
+                    <Button onClick = {(e)=>{this.saveCourse(e, username)}}>Save</Button>
                 </Form>
                 </Popover.Content> 
             </Popover>

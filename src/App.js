@@ -9,7 +9,6 @@ import EventMaker from "./util/EventMaker";
 import SearchForm from "./search/SearchForm";
 import Calendar from "./calender/Calendar"
 import Block from "./block/Block";
-import Courses from "./util/Courses";
 import LeftNavBar from "./Navbar/LeftNavbar"
 
 class App extends Component{
@@ -21,7 +20,6 @@ class App extends Component{
       isBlockForm: false,
       showPopover: false,
     }
-    this.changeNav = React.createRef();
   }
 
   shouldComponentUpdate(nextProps, nextState){
@@ -29,6 +27,7 @@ class App extends Component{
     const nextSelectedCourses = nextState.selectedCourses;
     return Object.keys(prevSelectedCourses).length !== Object.keys(nextSelectedCourses);
   }
+
   changeBlock = (e, input) =>{
     this.setState({isBlockForm:input})
   }
@@ -63,32 +62,9 @@ class App extends Component{
     });
   }
 
-  saveCourse = (e, username) =>{
-    let {selectedCourses, eventList} = this.state;
-    if(username !== ""){
-      const payload = {
-        selectedCourses: selectedCourses,
-        eventList: eventList,
-        username: username
-      };
-      this.changeNav.current.changeIsSaving(true);
-      Courses.saveClasses(payload)
-      .then(response =>{
-        console.log(response);
-        if(response.data.resultCode === 300){
-            this.changeNav.current.changeIsSaving(false);
-            this.changeNav.current.changeSaveSuccessful(true);
-        }
-        else{
-          this.changeNav.current.changeIsSaving(false);
-          this.changeNav.current.changeSaveSuccessful(false);
-        }
-      });
-    }
-  }
 
   render(){
-    const {isBlockForm} = this.state;
+    const {isBlockForm,selectedCourses, eventList} = this.state;
     return ( 
       <div>
         <Container fluid>
@@ -97,8 +73,8 @@ class App extends Component{
               <LeftNavBar 
                 saveCourse = {this.saveCourse} 
                 changeBlock = {this.changeBlock} 
-                changeUsername = {this.changeUsername}
-                ref = {this.changeNav}
+                selectedCourses = {selectedCourses}
+                eventList = {eventList}
               >
               </LeftNavBar>
               {isBlockForm ?  <Block selectedCourses = {this.state.selectedCourses} deleteCourse = {this.deleteCourse}></Block> :
