@@ -2,20 +2,15 @@ import React, {Component} from 'react';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import Overlay from 'react-bootstrap/Overlay'
-import Popover  from 'react-bootstrap/Popover';
-import Form from 'react-bootstrap/Form'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "./css/column.css"
 
 import EventMaker from "./util/EventMaker";
 import SearchForm from "./search/SearchForm";
 import Calendar from "./calender/Calendar"
 import Block from "./block/Block";
 import Courses from "./util/Courses";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import "./css/column.css"
-import { Button } from 'react-bootstrap';
+import LeftNavBar from "./Navbar/LeftNavbar"
 
 class App extends Component{
   constructor(props){
@@ -23,19 +18,19 @@ class App extends Component{
     this.state = {
       selectedCourses:{},
       eventList:[],
-      username: "",
       isBlockForm: false,
       showPopover: false,
-      isSaving:false,
-      saveSuccessful:false,
-      target:null
     }
+    this.changeNav = React.createRef();
   }
 
   shouldComponentUpdate(nextProps, nextState){
     const prevSelectedCourses = this.state.selectedCourses;
     const nextSelectedCourses = nextState.selectedCourses;
     return Object.keys(prevSelectedCourses).length !== Object.keys(nextSelectedCourses);
+  }
+  changeBlock = (e, input) =>{
+    this.setState({isBlockForm:input})
   }
 
   pushCourse = (e,course) =>{
@@ -68,95 +63,30 @@ class App extends Component{
     });
   }
 
-  saveCourse = () =>{
-    let {selectedCourses, eventList,username} = this.state;
+  saveCourse = (e, username) =>{
+    let {selectedCourses, eventList} = this.state;
     if(username !== ""){
       const payload = {
         selectedCourses: selectedCourses,
         eventList: eventList,
         username: username
       };
-      this.setState({isSaving:true});
+      this.changeNav.current.changeIsSaving(true);
       Courses.saveClasses(payload)
       .then(response =>{
         console.log(response);
         if(response.data.resultCode === 300){
-            this.setState({
-              isSaving:false,
-              saveSuccessful:true
-            });
+            this.changeNav.current.changeIsSaving(false);
+            this.changeNav.current.changeSaveSuccessful(true);
         }
         else{
-          this.setState({
-            isSaving:false,
-            saveSuccessful:false
-          })
+          this.changeNav.current.changeIsSaving(false);
+          this.changeNav.current.changeSaveSuccessful(false);
         }
       });
     }
   }
 
-
-
-  handleChange = (event) =>{
-    event.preventDefault();
-    this.setState({username:event.target.value});
-  }
-
-  handleSaveButton = (e) =>{
-    const {showPopover} = this.state;
-    this.setState({
-      target: e.target,
-      showPopover:!showPopover
-    });
-  }
-
-  getUsername = () =>{
-    const {showPopover, target, isSaving, saveSuccessful} = this.state;
-    return(
-      <Overlay 
-        show = {showPopover} 
-        target = {target} 
-        placement = "bottom" 
-        rootClose = {true}
-        onHide = {() => {this.setState({showPopover:false, isSaving:false, saveSuccessful:false})}} 
-      >
-        <Popover id = "popover-basic">
-          <Popover.Title as = "h3">Save</Popover.Title>
-          <Popover.Content>
-            <Form >
-              <Form.Group controlId = "getUsername" >
-                <Form.Label>Username</Form.Label>
-                <Form.Control 
-                  placeholder="Enter username"
-                  onChange = {this.handleChange}
-                />
-                <Form.Text className="text-muted">
-                  Recommend using email's username
-                  <br></br>
-                  i.e mountie@student.mtsac.edu
-                  <br></br>
-                  use "mountie"
-                </Form.Text>
-
-                {isSaving &&
-                  <Form.Text>
-                  Saving
-                  </Form.Text> 
-                }
-                {!isSaving && saveSuccessful &&
-                  <Form.Text>
-                  Save successful
-                  </Form.Text> 
-                }
-              </Form.Group>
-              <Button onClick = {this.saveCourse}>Save</Button>
-            </Form>
-          </Popover.Content> 
-        </Popover>
-      </Overlay>
-    );
-  }
   render(){
     const {isBlockForm} = this.state;
     return ( 
@@ -164,20 +94,13 @@ class App extends Component{
         <Container fluid>
           <Row>
             <Col className = "column-scroll">
-              <Navbar variant="nav-link" bg="dark" sticky = "top">
-                <Nav className='m-auto'>
-                  <Nav.Link onClick = {() => {this.setState({isBlockForm:false})}} >
-                      Calendar Form
-                  </Nav.Link>
-                  <Nav.Link onClick = {() => {this.setState({isBlockForm:true})}} >
-                      Block Form
-                  </Nav.Link>  
-                    <Nav.Link onClick = {this.handleSaveButton}>
-                        Save
-                    </Nav.Link>
-                </Nav>
-              </Navbar>
-              <this.getUsername></this.getUsername>
+              <LeftNavBar 
+                saveCourse = {this.saveCourse} 
+                changeBlock = {this.changeBlock} 
+                changeUsername = {this.changeUsername}
+                ref = {this.changeNav}
+              >
+              </LeftNavBar>
               {isBlockForm ?  <Block selectedCourses = {this.state.selectedCourses} deleteCourse = {this.deleteCourse}></Block> :
                 <Calendar eventList = {this.state.eventList} deleteCourse = {this.deleteCourse}/>
               }
