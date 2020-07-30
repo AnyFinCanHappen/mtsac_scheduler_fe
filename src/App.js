@@ -26,9 +26,18 @@ class App extends Component{
       username: "",
       isBlockForm: false,
       showPopover: false,
+      isSaving:false,
+      saveSuccessful:false,
       target:null
     }
   }
+
+  shouldComponentUpdate(nextProps, nextState){
+    const prevSelectedCourses = this.state.selectedCourses;
+    const nextSelectedCourses = nextState.selectedCourses;
+    return Object.keys(prevSelectedCourses).length !== Object.keys(nextSelectedCourses);
+  }
+
   pushCourse = (e,course) =>{
     let {selectedCourses, eventList} = this.state;
     if(!selectedCourses[course.CRN]){
@@ -59,24 +68,35 @@ class App extends Component{
     });
   }
 
-
-  saveCourse = (event) =>{
+  saveCourse = () =>{
     let {selectedCourses, eventList,username} = this.state;
-    console.log(event.target)
     if(username !== ""){
       const payload = {
         selectedCourses: selectedCourses,
         eventList: eventList,
         username: username
       };
-      
+      this.setState({isSaving:true});
       Courses.saveClasses(payload)
       .then(response =>{
         console.log(response);
+        if(response.data.resultCode === 300){
+            this.setState({
+              isSaving:false,
+              saveSuccessful:true
+            });
+        }
+        else{
+          this.setState({
+            isSaving:false,
+            saveSuccessful:false
+          })
+        }
       });
-      
     }
   }
+
+
 
   handleChange = (event) =>{
     event.preventDefault();
@@ -92,14 +112,14 @@ class App extends Component{
   }
 
   getUsername = () =>{
-    const {showPopover, target} = this.state;
+    const {showPopover, target, isSaving, saveSuccessful} = this.state;
     return(
       <Overlay 
         show = {showPopover} 
         target = {target} 
         placement = "bottom" 
         rootClose = {true}
-        onHide = {() => {this.setState({showPopover:false})}} 
+        onHide = {() => {this.setState({showPopover:false, isSaving:false, saveSuccessful:false})}} 
       >
         <Popover id = "popover-basic">
           <Popover.Title as = "h3">Save</Popover.Title>
@@ -111,6 +131,24 @@ class App extends Component{
                   placeholder="Enter username"
                   onChange = {this.handleChange}
                 />
+                <Form.Text className="text-muted">
+                  Recommend using email's username
+                  <br></br>
+                  i.e mountie@student.mtsac.edu
+                  <br></br>
+                  use "mountie"
+                </Form.Text>
+
+                {isSaving &&
+                  <Form.Text>
+                  Saving
+                  </Form.Text> 
+                }
+                {!isSaving && saveSuccessful &&
+                  <Form.Text>
+                  Save successful
+                  </Form.Text> 
+                }
               </Form.Group>
               <Button onClick = {this.saveCourse}>Save</Button>
             </Form>
