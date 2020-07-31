@@ -90,8 +90,6 @@ function parseTime(course) {
     return eventList;
 }
 
-
-
 function removeEvent(events, CRN){
     let updateEvents = events;
     let start;
@@ -119,7 +117,23 @@ function removeEvent(events, CRN){
     return updateEvents;
 }
 
+function convertResponseIntoDate(eventList){
+    let updatedEventList = [];
+    eventList.forEach(item =>{
+        let event = {
+            title:item.title,
+            start: new Date(item.start),
+            end: new Date(item.end),
+            resource: item.resource,
+            allDay: item.allDay
+        }
+        updatedEventList.push(event);
+    })
+    return updatedEventList;
+}
+
 export default {
     parseTime,
-    removeEvent
+    removeEvent,
+    convertResponseIntoDate
 };

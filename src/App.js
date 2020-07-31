@@ -22,11 +22,13 @@ class App extends Component{
     }
   }
 
+  /*
   shouldComponentUpdate(nextProps, nextState){
     const prevSelectedCourses = this.state.selectedCourses;
     const nextSelectedCourses = nextState.selectedCourses;
     return Object.keys(prevSelectedCourses).length !== Object.keys(nextSelectedCourses);
   }
+  */
 
   changeBlock = (e, input) =>{
     this.setState({isBlockForm:input})
@@ -46,6 +48,7 @@ class App extends Component{
         eventList.push(event);
       });
       selectedCourses[course.CRN] = courseInfo;
+      //console.log(eventList);
       this.setState({
         selectedCourses: selectedCourses,
         eventList:eventList
@@ -62,6 +65,13 @@ class App extends Component{
     });
   }
 
+  loadCourse = (selectedCourses, eventList) =>{
+    this.setState({
+      selectedCourses:selectedCourses,
+      eventList:eventList
+    });
+  }
+
 
   render(){
     const {isBlockForm,selectedCourses, eventList} = this.state;
@@ -71,7 +81,7 @@ class App extends Component{
           <Row>
             <Col className = "column-scroll">
               <LeftNavBar 
-                saveCourse = {this.saveCourse} 
+                loadCourse = {this.loadCourse}
                 changeBlock = {this.changeBlock} 
                 selectedCourses = {selectedCourses}
                 eventList = {eventList}

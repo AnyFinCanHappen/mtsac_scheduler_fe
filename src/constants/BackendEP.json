@@ -1,5 +1,6 @@
 {
     "backendURL":"http://localhost:3001/api/",
     "retrieveClassesEP":"search",
-    "saveClassesEP":"save"
+    "saveClassesEP":"save",
+    "loadClassesEP":"load"
 }

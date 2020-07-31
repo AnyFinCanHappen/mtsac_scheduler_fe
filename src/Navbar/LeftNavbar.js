@@ -1,113 +1,20 @@
 import React, {Component} from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import Overlay from 'react-bootstrap/Overlay'
-import Popover  from 'react-bootstrap/Popover';
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button';
-import Courses from "../util/Courses";
+import LoadCourseOverlay from "./LoadCourseOverlay"
+import SaveCourseOverlay from "./SaveCourseOverlay"
 
 
 class LeftNavbar extends Component{
     constructor(props){
         super(props);
         this.state = {
-            showPopover: false,
-            isSaving:false,
-            saveSuccessful:false,
-            target:null,
-            username:""
         }
-    }
-    handleChange = (event) =>{
-        const {value} = event.target;
-        this.setState({
-            username:value
-        })
-    }
-    handleSaveButton = (e) =>{
-        const {showPopover} = this.state;
-        const {target} = e;
-        this.setState({
-            target: target,
-            showPopover:!showPopover
-        });
+        this.changeLoadOverlay = React.createRef();
+        this.changeSaveOverlay = React.createRef();
     }
 
-    saveCourse = (e, username) =>{
-        const classSuccessCode = 300;
-        let {selectedCourses, eventList} = this.props;
-        if(username !== ""){
-          const payload = {
-            selectedCourses: selectedCourses,
-            eventList: eventList,
-            username: username
-          };
-          this.setState({isSaving:true});
-          Courses.saveClasses(payload)
-          .then(response =>{
-            console.log(response);
-            if(response.data.resultCode === classSuccessCode){
-                this.setState({
-                    isSaving:false,
-                    saveSuccessful:true
-                })
-            }
-            else{
-              this.setState({
-                  isSavign:false,
-                  saveSuccessful:false
-              })
-            }
-          });
-        }
-      }
-    getUsername = () =>{
-        const {showPopover, target, isSaving, saveSuccessful,username} = this.state;
-        return(
-            <Overlay 
-            show = {showPopover} 
-            target = {target} 
-            placement = "bottom" 
-            rootClose = {true}
-            onHide = {() => {this.setState({showPopover:false, isSaving:false, saveSuccessful:false})}} 
-            >
-            <Popover id = "popover-basic">
-                <Popover.Title as = "h3">Save</Popover.Title>
-                <Popover.Content>
-                <Form >
-                    <Form.Group controlId = "getUsername" >
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control 
-                        placeholder="Enter username"
-                        onChange = {this.handleChange}
-                    />
-                    <Form.Text className="text-muted">
-                        Recommend using email's username
-                        <br></br>
-                        i.e mountie@student.mtsac.edu
-                        <br></br>
-                        use "mountie"
-                    </Form.Text>
-
-                    {isSaving &&
-                        <Form.Text>
-                        Saving
-                        </Form.Text> 
-                    }
-                    {!isSaving && saveSuccessful &&
-                        <Form.Text>
-                        Save successful
-                        </Form.Text> 
-                    }
-                    </Form.Group>
-                    <Button onClick = {(e)=>{this.saveCourse(e, username)}}>Save</Button>
-                </Form>
-                </Popover.Content> 
-            </Popover>
-            </Overlay>
-        );
-    }    
+ 
     render(){
         return(
             <div>
@@ -119,12 +26,25 @@ class LeftNavbar extends Component{
                     <Nav.Link onClick = {(e) => {this.props.changeBlock(e,true)}} >
                         Block Form
                     </Nav.Link>  
-                        <Nav.Link onClick = {this.handleSaveButton}>
+                        <Nav.Link onClick = {(e)=>{this.changeSaveOverlay.current.handleSaveLink(e)}}>
                             Save
+                        </Nav.Link>
+                        <Nav.Link onClick = {(e) =>{this.changeLoadOverlay.current.handleLoadLink(e)}}>
+                            Load
                         </Nav.Link>
                     </Nav>
                 </Navbar>
-            <this.getUsername></this.getUsername>
+            <SaveCourseOverlay 
+                ref = {this.changeSaveOverlay}
+                selectedCourses = {this.props.selectedCourses}
+                eventList = {this.props.eventList}
+            >
+            </SaveCourseOverlay>
+            <LoadCourseOverlay 
+                ref = {this.changeLoadOverlay}
+                loadCourse = {this.props.loadCourse}
+            >
+            </LoadCourseOverlay>
           </div>
         );
     }

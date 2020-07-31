@@ -22,7 +22,7 @@ class SearchResults extends Component{
     getClassInfo = () =>{
         console.log("sending")
         const payload = this.props.query;
-        Courses.getClasses(payload)
+        Courses.getCourses(payload)
         .then(response =>{
             console.log(response);
             const classes = response.data.classInfo;
