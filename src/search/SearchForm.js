@@ -148,7 +148,6 @@ class SearchForm extends Component{
                 </Navbar>
                 {!isSearch ? 
                     <div>
-                        Search Page
                         <TermBar setTerm = {this.setTerm}/>
                         <SubjectBar setSubject = {this.setSubject}/>
                         <br></br>

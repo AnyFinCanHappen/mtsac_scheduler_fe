@@ -21,7 +21,7 @@ class LeftNavbar extends Component{
                 <Navbar variant="nav-link" bg="dark" sticky = "top">
                     <Nav className='m-auto'>
                     <Nav.Link onClick = {(e) => {this.props.changeBlock(e,false)}} >
-                        Calendar Form
+                        Calendar
                     </Nav.Link>
                     <Nav.Link onClick = {(e) => {this.props.changeBlock(e,true)}} >
                         Block Form
