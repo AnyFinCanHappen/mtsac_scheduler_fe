@@ -5,7 +5,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import Popover  from 'react-bootstrap/Popover';
 import Overlay from 'react-bootstrap/Overlay';
 import Button from 'react-bootstrap/Button';
-
+import "../css/delete_button.css"
 
 
 const localizer = momentLocalizer(moment)
@@ -89,9 +89,12 @@ class Calendar extends Component{
                 {popoverData !== null &&
                 <Overlay show = {showPopover} target = {target} >
                     <Popover id = "popover-basic">
+                    <Button size = "sm" className = "btn-delete" onClick = {(e) => this.handleDelete(e, popoverData.CRN)} >
+                        <img src = "../image/trashbin2.png" alt = {"x"} className = "trashbin"></img>
+                    </Button> 
                     <Popover.Title as = "h3">
                         {popoverData.title}
-                        <Button size = "sm" onClick = {(e) => this.handleDelete(e, popoverData.CRN)} > X</Button>
+
                     </Popover.Title>
                     <Popover.Content>
                         {"CRN: " + popoverData.CRN}
@@ -99,8 +102,8 @@ class Calendar extends Component{
                         {"Instructor: " + popoverData.instructor}
                         <br/>
                         {"Location: " + popoverData.location}
-
-                    </Popover.Content> 
+                        <br/>
+                    </Popover.Content>
                     </Popover>
                 </Overlay>}
             </div>

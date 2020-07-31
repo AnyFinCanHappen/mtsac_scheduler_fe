@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
-
+import "../css/delete_button.css"
 
 class Block extends Component{
     state = {}
@@ -73,12 +73,15 @@ class Block extends Component{
                         <Col key = {item + ":" + index} style={{padding: '5px'}}>
                         <Card>
                             <Card.Body>
+                            <Button size = "sm"  className = "btn-delete" onClick = {(e) => this.props.deleteCourse(e, item) } >
+                                <img src = "../image/trashbin2.png" alt = {"x"} className = "trashbin"></img>
+                            </Button>
                                 <Card.Title>
-                                    {course.name}
-                                    <Button size = "sm" onClick = {(e) => this.props.deleteCourse(e, item)}>X</Button>
+                                    {course.name}                                  
                                 </Card.Title>
                                 <Card.Text>
                                     {"CRN: " + item}
+                                    <br></br>
                                     {"Instructor: " + course.instructor}
                                 </Card.Text>
                                 <this.displayMeetingTimes meetings = {meetings} location = {location}/>
