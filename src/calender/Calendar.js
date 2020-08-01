@@ -15,33 +15,36 @@ class Calendar extends Component{
         this.state = {
             showPopover : false,
             target : null,
+            prevTarget:null,
             popoverData : null
         };
     }
 
-    handleEventClick = (event, e) =>{
+    handleEventClick = (eventObject, e) =>{
         const {showPopover,target} = this.state;
-        const {resource} = event;            
+        const {resource} = eventObject;
         let popoverData = {
-            title: event.title,
+            title: eventObject.title,
             CRN: resource.CRN,
             location: resource.location,
             instructor: resource.instructor
         }
-        this.setState({
-            target:e.target,
-            popoverData:popoverData
-        })
+        let show;
         if(target !== e.target){
+            show = true;
+            let prevTarget = target;
             this.setState({
-                showPopover: true
-            })
+                target:e.target,
+                prevTarget:prevTarget
+            });
         }
         else{
-            this.setState({
-                showPopover: !showPopover
-            })
+            show = !showPopover;
         }
+        this.setState({
+            popoverData:popoverData,
+            showPopover:show
+        });
     }
 
     handleDelete = (e, CRN) =>{
@@ -72,6 +75,13 @@ class Calendar extends Component{
         );
     }
 
+    testfunc = (e) =>{
+        const {target} = this.state;
+        if(target !== e.target){
+            this.setState({showPopover:false});
+        }
+    }
+
     render(){
         const {showPopover, target, popoverData} = this.state;
         return(
@@ -100,7 +110,7 @@ class Calendar extends Component{
                     eventPropGetter = {this.assignColor}
                 />
                 {popoverData !== null &&
-                <Overlay show = {showPopover} target = {target} >
+                <Overlay show = {showPopover} target = {target} rootClose onHide = {this.testfunc}>
                     <Popover id = "popover-basic">
                     <Button size = "sm" className = "btn-delete" onClick = {(e) => this.handleDelete(e, popoverData.CRN)} >
                         <img src = "../image/trashbin2.png" alt = {"x"} className = "trashbin"></img>
