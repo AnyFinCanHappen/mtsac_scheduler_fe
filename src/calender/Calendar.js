@@ -49,6 +49,18 @@ class Calendar extends Component{
         this.setState({showPopover:false});
     }
 
+    assignColor = (event,start,end, isSelected) =>{
+        const {CRN} = event.resource;
+        const {selectedCourses} = this.props;
+        let backgroundColor = "#" + selectedCourses[CRN].color;
+        let style = {
+            backgroundColor: backgroundColor
+        }
+        return {
+            style:style
+        };
+    }
+
     Event = ({event}) =>{
         return(
             <span>
@@ -85,6 +97,7 @@ class Calendar extends Component{
                     onSelectEvent = {this.handleEventClick}
                     popup = {true}
                     components = {{event:this.Event}}
+                    eventPropGetter = {this.assignColor}
                 />
                 {popoverData !== null &&
                 <Overlay show = {showPopover} target = {target} >

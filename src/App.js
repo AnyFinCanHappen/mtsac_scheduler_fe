@@ -9,7 +9,8 @@ import EventMaker from "./util/EventMaker";
 import SearchForm from "./search/SearchForm";
 import Calendar from "./calender/Calendar"
 import Block from "./block/Block";
-import LeftNavBar from "./Navbar/LeftNavbar"
+import LeftNavBar from "./Navbar/LeftNavbar";
+import EventColors from "./constants/Colors.json"
 
 class App extends Component{
   constructor(props){
@@ -35,6 +36,7 @@ class App extends Component{
   }
 
   pushCourse = (e,course) =>{
+    let {colorList} = EventColors;
     let {selectedCourses, eventList} = this.state;
     if(!selectedCourses[course.CRN]){
       let events = EventMaker.parseTime(course);
@@ -42,13 +44,18 @@ class App extends Component{
         name:course.name,
         instructor:course.instructor,
         meetingTimes:course.meetingTimes,
-        location:course.location
+        location:course.location,
       };
+      if(Object.keys(courseInfo).length >= 20){
+        courseInfo.color = "4363d8"
+      }
+      else{
+        courseInfo.color = colorList[Object.keys(selectedCourses).length];
+      }
       events.forEach(event =>{
         eventList.push(event);
       });
       selectedCourses[course.CRN] = courseInfo;
-      //console.log(eventList);
       this.setState({
         selectedCourses: selectedCourses,
         eventList:eventList
@@ -88,7 +95,7 @@ class App extends Component{
               >
               </LeftNavBar>
               {isBlockForm ?  <Block selectedCourses = {this.state.selectedCourses} deleteCourse = {this.deleteCourse}></Block> :
-                <Calendar eventList = {this.state.eventList} deleteCourse = {this.deleteCourse}/>
+                <Calendar eventList = {this.state.eventList} selectedCourses = {this.state.selectedCourses} deleteCourse = {this.deleteCourse}/>
               }
             </Col>
             <Col className = "column-scroll">
