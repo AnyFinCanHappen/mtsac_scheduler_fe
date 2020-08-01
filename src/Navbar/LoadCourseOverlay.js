@@ -12,7 +12,7 @@ class LoadCourseOverlay extends Component{
     constructor(props){
         super(props);
         this.state = {
-            userName:"",
+            username:"",
             showPopover:false,
             isLoading:false,
             resultCode:null,
