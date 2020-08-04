@@ -13,9 +13,11 @@ class SaveCourseOverlay extends Component{
         this.state = {
             showPopover: false,
             isSaving:false,
+            isError:false,
             resultCode:null,
             target:null,
-            username:""
+            username:"",
+            errorMessage:""
         }
         this.changeLoadOverlay = React.createRef();
     }
@@ -38,7 +40,8 @@ class SaveCourseOverlay extends Component{
     saveCourse = () =>{
         const {selectedCourses, eventList} = this.props;
         const {username} = this.state;
-        if(username !== ""){
+        const noSpace = username.replace(/\s/g, '');
+        if(username !== "" && noSpace.length > 0){
             const payload = {
             selectedCourses: selectedCourses,
             eventList: eventList,
@@ -56,23 +59,31 @@ class SaveCourseOverlay extends Component{
                 }
                 else{
                     this.setState({
-                        isSavign:false,
-                        resultCode:response.data.resultCode
+                        isSaving:false,
+                        resultCode:response.data.resultCode,
+                        isError:false,
+                        errorMessage: response.data.message
                     })
                 }
             });
         }
+        else{
+            this.setState({
+                isError:true,
+                errorMessage:"Please enter a username."
+            })
+        }
     }
 
     render(){
-        const {showPopover, target, isSaving, resultCode} = this.state;
+        const {showPopover, target, isSaving, resultCode,isError, errorMessage} = this.state;
         return(
             <Overlay 
             show = {showPopover} 
             target = {target} 
             placement = "bottom" 
             rootClose = {true}
-            onHide = {() => {this.setState({showPopover:false, isSaving:false, resultCode:null})}} 
+            onHide = {() => {this.setState({showPopover:false, isSaving:false, resultCode:null, isError:false, errorMessage:""})}} 
             >
             <Popover id = "popover-basic">
                 <Popover.Title as = "h3">Save</Popover.Title>
@@ -84,6 +95,10 @@ class SaveCourseOverlay extends Component{
                         placeholder="Enter username"
                         onChange = {this.handleChange}
                     />
+                    {isError &&
+                    <Form.Text style = {{color:"red"}}>
+                        {errorMessage}
+                    </Form.Text>}
                     <Form.Text className="text-muted">
                         Recommend using email's username
                         <br></br>

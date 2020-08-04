@@ -16,7 +16,9 @@ class LoadCourseOverlay extends Component{
             showPopover:false,
             isLoading:false,
             resultCode:null,
-            target:null
+            target:null,
+            isError:false,
+            errorMessage:""
         }
     }
     handleChange = (event) =>{
@@ -35,12 +37,12 @@ class LoadCourseOverlay extends Component{
     }
     loadCourse = () =>{
         const {username} = this.state;
-        if(username !== ""){
+        const noSpace = username.replace(/\s/g, '');
+        if(username !== "" && noSpace.length > 0){
             const payload = {username:username}
             this.setState({isLoading:true});   
             Courses.loadCourses(payload)
             .then(response =>{
-                console.log(response);
                 if(response.data.resultCode === classLoadCode){
                     const {selectedCourses, eventList} = response.data.courses;
                     let updateEventList = EventMaker.convertResponseIntoDate(eventList);
@@ -53,22 +55,30 @@ class LoadCourseOverlay extends Component{
                 else{
                     this.setState({
                         isSavign:false,
-                        resultCode:response.data.resultCode
+                        resultCode:response.data.resultCode,
+                        isError:true,
+                        errorMessage:response.data.message
                     })
                 }
             })          
         }
+        else{
+            this.setState({
+                isError:true,
+                errorMessage:"Please enter a username."
+            })
+        }
     }
 
     render(){
-        const {showPopover, target, isLoading, resultCode} = this.state;
+        const {showPopover, target, isLoading, resultCode, isError, errorMessage} = this.state;
         return(
             <Overlay 
             show = {showPopover} 
             target = {target} 
             placement = "bottom" 
             rootClose = {true}
-            onHide = {() => {this.setState({showPopover:false, isLoading:false, resultCode:null})}} 
+            onHide = {() => {this.setState({showPopover:false, isLoading:false, resultCode:null, isError:false, errorMessage:""})}} 
             >
             <Popover id = "popover-basic">
                 <Popover.Title as = "h3">Load</Popover.Title>
@@ -80,6 +90,10 @@ class LoadCourseOverlay extends Component{
                         placeholder="Enter username"
                         onChange = {this.handleChange}
                     />
+                    {isError &&
+                    <Form.Text style = {{color:"red"}}>
+                        {errorMessage}
+                    </Form.Text>}
                     {isLoading &&
                         <Form.Text>
                         Loading
