@@ -2,5 +2,6 @@
     "backendURL":"http://localhost:3001/api/",
     "retrieveClassesEP":"search",
     "saveClassesEP":"save",
-    "loadClassesEP":"load"
+    "loadClassesEP":"load",
+    "getCourseDescriptionEP":"description"
 }

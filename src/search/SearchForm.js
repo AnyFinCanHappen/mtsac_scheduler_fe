@@ -74,7 +74,7 @@ class SearchForm extends Component{
                 aa: "N",
                 pr: "N",
                 tod: "A",
-                line: "N",
+                line: "D",
                 nco: "N",
                 crsz: "%25"
             },

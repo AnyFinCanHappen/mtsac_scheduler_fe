@@ -4,6 +4,7 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover  from 'react-bootstrap/Popover';
+import WebScrape from "../util/WebScrape";
 
 class SearchResults extends Component{
     constructor(props){
@@ -22,11 +23,25 @@ class SearchResults extends Component{
     getClassInfo = () =>{
         console.log("sending")
         const payload = this.props.query;
+
+        /*
+        let query = WebScrape.constructQueryParam(payload);
+        WebScrape.parseHTML(query)
+        */
         Courses.getCourses(payload)
         .then(response =>{
-            console.log(response);
+            /*
+            //When front end does websraping
+            const classes = response.classInfo;
+            const descriptions = response.classDescription;
+            const courseOrder = response.courseOrder;
+            */
+
+            //when back end does webscraping (use only for development)
             const classes = response.data.classInfo;
             const descriptions = response.data.classDescription;
+            const courseOrder = response.data.courseOrder;
+            
             let map = {}
             let classDescriptionMap = {}
             classes.forEach(item =>{
@@ -47,7 +62,7 @@ class SearchResults extends Component{
                 result:true,
                 classDescription:classDescriptionMap,
                 classInfo:map,
-                courseOrder:response.data.courseOrder
+                courseOrder:courseOrder
             });
             console.log("Got data!");
         })

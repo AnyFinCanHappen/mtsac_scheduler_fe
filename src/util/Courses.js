@@ -6,6 +6,11 @@ async function getCourses(payload){
     return response;
 }
 
+async function getDescription(payload){
+    let response = await Socket.sendPOSTHTTP(Constants.backendURL, Constants.getCourseDescriptionEP, payload);
+    return response;
+}
+
 async function saveCourses(payload){
     let response = await Socket.sendPOSTHTTP(Constants.backendURL, Constants.saveClassesEP, payload);
     return response
@@ -19,5 +24,6 @@ async function loadCourses(payload){
 export default {
     getCourses,
     saveCourses,
-    loadCourses
+    loadCourses,
+    getDescription
 };
