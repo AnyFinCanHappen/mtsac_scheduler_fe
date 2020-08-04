@@ -38,7 +38,7 @@ import "../css/nav_bar.css"
         "aa": "N",
         "pr": "N",
         "tod": "A",
-        "line": "N",
+        "line": "N",  use "D"
         "nco": "N",
         "crsz": "%25"
     }

@@ -12,7 +12,9 @@ class SearchResults extends Component{
         this.state = {
             result:false,
             classInfo:null,
-            classDescription:null
+            classDescription:null,
+            isError:false,
+            errorMessage:""
         }
     }
 
@@ -23,51 +25,67 @@ class SearchResults extends Component{
     getClassInfo = () =>{
         console.log("sending")
         const payload = this.props.query;
-
+        
         /*
+        //When front end does websraping
         let query = WebScrape.constructQueryParam(payload);
         WebScrape.parseHTML(query)
         */
-        Courses.getCourses(payload)
+
+        //When backend does webscraping
+        Courses.getCourses(payload)        
         .then(response =>{
+            
             /*
             //When front end does websraping
             const classes = response.classInfo;
             const descriptions = response.classDescription;
             const courseOrder = response.courseOrder;
             */
-
+            
             //when back end does webscraping (use only for development)
             const classes = response.data.classInfo;
             const descriptions = response.data.classDescription;
             const courseOrder = response.data.courseOrder;
             
-            let map = {}
-            let classDescriptionMap = {}
-            classes.forEach(item =>{
-                if(map[item.name]){
-                    map[item.name].push(item);
-                }
-                else{
-                    map[item.name] = [];
-                    map[item.name].push(item);
-                }
-            });
-            descriptions.forEach(item =>{
-                if(!classDescriptionMap[item.course_id]){
-                    classDescriptionMap[item.course_id] = item;
-                }
-            })
-            this.setState({
-                result:true,
-                classDescription:classDescriptionMap,
-                classInfo:map,
-                courseOrder:courseOrder
-            });
-            console.log("Got data!");
+            if(classes.length !== 0){
+                let map = {}
+                let classDescriptionMap = {}
+                classes.forEach(item =>{
+                    if(map[item.name]){
+                        map[item.name].push(item);
+                    }
+                    else{
+                        map[item.name] = [];
+                        map[item.name].push(item);
+                    }
+                });  
+                descriptions.forEach(item =>{
+                    if(!classDescriptionMap[item.course_id]){
+                        classDescriptionMap[item.course_id] = item;
+                    }
+                })
+                this.setState({
+                    result:true,
+                    classDescription:classDescriptionMap,
+                    classInfo:map,
+                    courseOrder:courseOrder
+                });
+                console.log("Got data!");
+            }
+            else{
+                this.setState({
+                    isError:true,
+                    errorMessage:"No courses found."
+                })
+            }
         })
         .catch(err =>{
             console.log(err);
+            this.setState({
+                isError:true,
+                errorMessage:"Server Error!"
+            })
         });
     }
 
@@ -75,7 +93,13 @@ class SearchResults extends Component{
         const {classDescription} = this.state;
         const course = classDescription[className];
         if(!classDescription[className]){
-            return null
+            return(
+                <Popover id = "popover-basic">
+                    <Popover.Content style ={{color:"red"}}>
+                        Could not retrieve course description, sorry.
+                    </Popover.Content> 
+                </Popover>
+            );
         }
         else{
             return(
@@ -178,7 +202,7 @@ class SearchResults extends Component{
     }
 
     render(){
-        const {result} = this.state;
+        const {result, isError,errorMessage} = this.state;
         if(result){
             return(
                 <div>
@@ -186,6 +210,13 @@ class SearchResults extends Component{
                 </div>
 
             );
+        }
+        else if(isError){
+            return(
+                <div>
+                    {errorMessage}
+                </div>
+            )
         }
         else{
             return(

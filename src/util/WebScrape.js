@@ -54,14 +54,17 @@ async function parseHTML(param){
             finalResponse = {
                 "classDescription":response.data.classDescription,
                 "classInfo":classInfo,
-                "courseOrder":courseOrder
+                "courseOrder":courseOrder,
+                "coursesFound":true
             }
             //console.log(response);
         }
         else{
             finalResponse = {
                 "classInfo":classInfo,
-                "courseOrder":courseOrder
+                "courseOrder":courseOrder,
+                "classDescription":[],
+                "coursesFound":true
             }
         }
     })
