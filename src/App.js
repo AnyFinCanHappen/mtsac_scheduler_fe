@@ -65,7 +65,7 @@ class App extends Component{
   deleteCourse = (e, CRN) =>{
     let {selectedCourses, eventList} = this.state;
     delete selectedCourses[CRN];
-    let updatedEventList = EventMaker.removeEvent(eventList, CRN);
+    let updatedEventList = EventMaker.removeEvents(eventList, CRN);
     this.setState({
       selectedCourses: selectedCourses,
       eventList: updatedEventList

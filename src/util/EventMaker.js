@@ -90,31 +90,16 @@ function parseTime(course) {
     return eventList;
 }
 
-function removeEvent(events, CRN){
-    let updateEvents = events;
-    let start;
-    let end;
-    let isFound = false;
-    updateEvents.forEach((event, index) => {
-        const {resource} = event
-        if(resource.CRN === CRN && !isFound){
-            start = index;
-            isFound = true;
-            
+
+function removeEvents(events, CRN){
+    let updatedEvents = [];
+    events.forEach((event)=>{
+        const {resource} = event;
+        if(resource.CRN !== CRN){
+            updatedEvents.push(event);
         }
-        else if(resource.CRN !== CRN && isFound){
-            end = index;
-            isFound = false;
-        }
-    });
-    if(isFound){
-        end = updateEvents.length;
-    }
-    else if(start === undefined){
-        return updateEvents;
-    }
-    updateEvents.splice(start,end);
-    return updateEvents;
+    })
+    return updatedEvents;
 }
 
 function convertResponseIntoDate(eventList){
@@ -134,6 +119,6 @@ function convertResponseIntoDate(eventList){
 
 export default {
     parseTime,
-    removeEvent,
+    removeEvents,
     convertResponseIntoDate
 };
