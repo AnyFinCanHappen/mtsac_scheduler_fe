@@ -7,9 +7,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import "../css/nav_bar.css"
 
-
-
-
 /*
     Mt. Sac search queries has these paremeters
     {
@@ -78,7 +75,10 @@ class SearchForm extends Component{
                 nco: "N",
                 crsz: "%25"
             },
-            isSearch:false
+            isSearch:false,
+            isError:false,
+            subjectTitle : "",
+            errorMessage:""
         }
     }
 
@@ -93,6 +93,18 @@ class SearchForm extends Component{
             TERM:TermID,
             TERM_DESC:term_desc
         }});
+    }
+
+    setSubjectTitle = (title) =>{
+        if(title !== null){
+            this.setState({
+                isError:false,
+                errorMessage:""
+            });
+        }
+        this.setState({
+            subjectTitle:title
+        });
     }
 
     setSubject = (subjID) =>{
@@ -128,13 +140,22 @@ class SearchForm extends Component{
     }
 
     handleClick = () =>{
-        this.setState({
-            isSearch:true
-        });
+        const {subjectTitle} = this.state;
+        if(subjectTitle !== ""){
+            this.setState({
+                isSearch:true
+            });
+        }
+        else{
+            this.setState({
+                isError:true,
+                errorMessage:"Please select a subject."
+            })
+        }
     }
 
     render(){
-        const {isSearch,query} = this.state;
+        const {isSearch, query, isError, errorMessage} = this.state;
         return(
             <div>
                 <Navbar variant="nav-link" bg="dark" sticky = "top">
@@ -149,7 +170,10 @@ class SearchForm extends Component{
                 {!isSearch ? 
                     <div>
                         <TermBar setTerm = {this.setTerm}/>
-                        <SubjectBar setSubject = {this.setSubject}/>
+                        <SubjectBar setSubject = {this.setSubject} setSubjectTitle = {this.setSubjectTitle}/>
+                        {isError && 
+                            <div style = {{color:"red"}}>{errorMessage}</div>
+                        }
                         <br></br>
                         <button onClick = {this.handleClick}>Search</button> 
                     </div> 

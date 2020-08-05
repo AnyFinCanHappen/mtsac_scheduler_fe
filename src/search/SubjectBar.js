@@ -13,18 +13,27 @@ class SubjectBar extends Component{
         }
     }
 
-    handleSelect = e =>{
-        this.setState({
-            sel_subj:e
-        });
-        this.props.setSubject(e);
+    handleSelect = (e) =>{
+        if(e === null){
+            this.setState({
+                sel_subj:""
+            });
+            this.props.setSubjectTitle("");
+        }
+        else{
+            this.setState({
+                sel_subj:e
+            });
+            this.props.setSubject(e);
+            this.props.setSubjectTitle(e);
+        }
     }
     subjectMenu = () =>{
         const {Subjects} = Subject;
         const {sel_subj} = this.state;
         let title = "";
         if(sel_subj === ""){
-            title = "Select department."
+            title = "Select Department."
         }
         else if(sel_subj === "all"){
             title = "All Departments"
@@ -39,6 +48,7 @@ class SubjectBar extends Component{
                     {title}
                 </DropDown.Toggle>
                 <DropDown.Menu className = "dropdown-menu-search">
+                    <DropDown.Item key = {-2} eventKey = {""}>Select Department</DropDown.Item>
                     <DropDown.Item key = {-1} eventKey = "all">All Departments</DropDown.Item>
                     {
                         Object.keys(Subjects).map((key,index) =>{
