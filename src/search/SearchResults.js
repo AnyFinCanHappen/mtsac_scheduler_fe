@@ -138,16 +138,26 @@ class SearchResults extends Component{
                             </tr>
                         </thead>
                         {classInfo[className].map((key, index) =>{
-                            const {meetingTimes, location, activated, capacity} = key;
+                            const {meetingTimes, location, activated, capacity, status} = key;
                             const {meetings} = meetingTimes;
                             const activatedInt = parseInt(activated,10);
                             const capacityInt = parseInt(capacity,10);
-                            let enrollmentFontColor = "green"
+                            let enrollmentFontColor = "grey";
                             if(activatedInt < capacityInt){
                                 enrollmentFontColor = "green";
                             }
                             else if (activated >= capacityInt){
                                 enrollmentFontColor = "red";
+                            }
+                            let enrollmentStatusColor = "green";
+                            if(status === "Open"){
+                                enrollmentStatusColor = "green";
+                            }
+                            else if(status === "Waitlist Open"){
+                                enrollmentStatusColor = "#FF7C00"; //orange
+                            }
+                            else{
+                                enrollmentStatusColor = "red";
                             }
                             return(
                                 <tbody key = {key.crn + ":" + index}>
@@ -171,7 +181,7 @@ class SearchResults extends Component{
                                         </td>
                                         <td>{location[0]}</td>
                                         <td style = {{color:enrollmentFontColor}}>{key.activated + "/" + key.capacity}</td>
-                                        <td>{key.status}</td>
+                                        <td style = {{color:enrollmentStatusColor}}>{key.status}</td>
                                     </tr>
                                     {meetings.length > 1 && meetings.map((key,index) => {
                                         if(index !== 0){
