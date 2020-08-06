@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Courses from "../util/Courses";
+import Constants from "../constants/BackendEP.json"
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
@@ -117,6 +118,7 @@ class SearchResults extends Component{
 
     displayClasses = () =>{
         const{classInfo, courseOrder} = this.state;
+        const rmpURL = Constants.RMP.url;
         return(
             courseOrder.map((className,num)=>{
                 return(
@@ -171,7 +173,13 @@ class SearchResults extends Component{
                                         </td>
                                         <td>{key.CRN}</td>
                                         <td>{key.cred}</td>
-                                        <td>{key.instructor}</td>
+                                        <td>
+                                            {key.status !== "Hold" && key.status !== "Cancelled" &&
+                                                <a href = {rmpURL + key.instructor} target="_blank" rel="noopener noreferrer">
+                                                    {key.instructor}
+                                                </a>
+                                            }
+                                        </td>
                                         <td>
                                             {
                                                 meetings[0].info === "available" ? 
