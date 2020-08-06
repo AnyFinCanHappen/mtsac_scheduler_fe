@@ -1,11 +1,12 @@
 import Course from "./Courses"
+import Constants from "../constants/BackendEP.json"
 const {JSDOM, ResourceLoader} = require("jsdom");
 
 
 async function parseHTML(param){
     const retrievedClasses = 200;
-    const Url = "https://prodssb.mtsac.edu";
-    const SearchEP = "/prod/pw_sigsched.p_process";
+    const Url = Constants.MtSac.url;
+    const SearchEP = Constants.MtSac.searchEP;
     let classInfo = [];
     let info ={
         "isClass":false

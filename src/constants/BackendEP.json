@@ -3,5 +3,9 @@
     "retrieveClassesEP":"search",
     "saveClassesEP":"save",
     "loadClassesEP":"load",
-    "getCourseDescriptionEP":"description"
+    "getCourseDescriptionEP":"description",
+    "MtSac":{
+        "url": "https://prodssb.mtsac.edu",
+        "searchEP":"/prod/pw_sigsched.p_process"
+    }
 }
