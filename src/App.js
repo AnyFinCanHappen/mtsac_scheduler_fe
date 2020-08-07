@@ -83,7 +83,7 @@ class App extends Component{
   render(){
     const {isBlockForm,selectedCourses, eventList} = this.state;
     return ( 
-      <div>
+      <div style = {{backgroundColor: "#a9bedf"}}>
         <Container fluid>
           <Row>
             <Col className = "column-scroll">

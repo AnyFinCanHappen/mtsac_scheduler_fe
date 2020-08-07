@@ -108,6 +108,7 @@ class Calendar extends Component{
                     popup = {true}
                     components = {{event:this.Event}}
                     eventPropGetter = {this.assignColor}
+                    style = {{backgroundColor:"white"}}
                 />
                 {popoverData !== null &&
                 <Overlay show = {showPopover} target = {target} rootClose onHide = {this.testfunc}>
