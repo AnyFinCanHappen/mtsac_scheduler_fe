@@ -1,0 +1,24 @@
+.btn-description{
+    background-color:#F17171;
+    border-color: #F17171;
+}
+
+
+.btn-description:focus, .btn-description:active, .btn-description:hover{
+    background-color: #F17171;
+    text-decoration: none;
+    border-color:black;   
+}
+
+.btn-add{
+    background-color:transparent;
+    border-color: transparent;
+    color:grey;
+}
+
+.btn-add:hover,.btn-add:active, .btn-add:focus{
+    background-color: transparent;
+    border-color: grey;
+    color:grey;
+}
+

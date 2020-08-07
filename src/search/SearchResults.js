@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover  from 'react-bootstrap/Popover';
 import WebScrape from "../util/WebScrape";
+import "../css/search_result.css"
 
 class SearchResults extends Component{
     constructor(props){
@@ -48,6 +49,8 @@ class SearchResults extends Component{
             const classes = response.data.classInfo;
             const descriptions = response.data.classDescription;
             const courseOrder = response.data.courseOrder;
+
+            console.log(response);
             
             if(classes.length !== 0){
                 let map = {}
@@ -115,19 +118,20 @@ class SearchResults extends Component{
             );
         }   
     }
-
+    //, overflow:"auto", display:"block",tableLayout: "auto"
     displayClasses = () =>{
         const{classInfo, courseOrder} = this.state;
         const rmpURL = Constants.RMP.url;
         return(
             courseOrder.map((className,num)=>{
                 return(
-                    <div key = {num}>
+                    <div key = {num} className = "table-responsive">
                     <OverlayTrigger trigger = "click" rootClose placement = "right" overlay = {this.popover(className)}>     
-                        <Button variant = "primary" size = "lg">{className}</Button>
-                    </OverlayTrigger>   
-                    <Table striped bordered size = "sm" key = {num}>
-                        <thead>
+                        <Button variant = "primary" size = "lg" className = "btn-description">{className}</Button>
+                    </OverlayTrigger>
+                    <br></br>
+                    <Table size = "sm" key = {num}>
+                        <thead style = {{backgroundColor:"white"}}>
                             <tr>
                                 <th>Add</th>
                                 <th>CRN</th>
@@ -145,13 +149,14 @@ class SearchResults extends Component{
                             const activatedInt = parseInt(activated,10);
                             const capacityInt = parseInt(capacity,10);
                             let enrollmentFontColor = "grey";
+                            let enrollmentStatusColor = "green";
+                            let rowColor = "white";
                             if(activatedInt < capacityInt){
                                 enrollmentFontColor = "green";
                             }
                             else if (activated >= capacityInt){
                                 enrollmentFontColor = "red";
                             }
-                            let enrollmentStatusColor = "green";
                             if(status === "Open"){
                                 enrollmentStatusColor = "green";
                             }
@@ -161,23 +166,31 @@ class SearchResults extends Component{
                             else{
                                 enrollmentStatusColor = "red";
                             }
+                            if(index % 2 === 0){
+                                rowColor = "#F7F7F7";
+                            }
+                            else{
+                                rowColor = "white";
+                            }
                             return(
-                                <tbody key = {key.crn + ":" + index}>
-                                    <tr>
+                                <tbody key = {key.crn + ":" + index} >
+                                    <tr style = {{backgroundColor:rowColor, fontSize:"14px", fontFamily:"Roboto"}}>
                                         <td>
                                             {
                                                 key.status !== "Hold" && key.status !== "Cancelled" ?
-                                                <Button size = "sm" onClick = {(e) => this.props.pushCourse(e,key)}>+</Button> :
-                                                "+"
+                                                <Button size = "sm" className = "btn-add" onClick = {(e) => this.props.pushCourse(e,key)}>+</Button> :
+                                                <Button size = "sm" disabled className = "btn-disabled" style = {{backgroundColor:"transparent", borderColor:"transparent",color:"grey"}}>
+                                                    +
+                                                </Button>
                                             }
                                         </td>
                                         <td>{key.CRN}</td>
                                         <td>{key.cred}</td>
                                         <td>
                                             {key.status !== "Hold" && key.status !== "Cancelled" &&
-                                                <a href = {rmpURL + key.instructor} target="_blank" rel="noopener noreferrer">
-                                                    {key.instructor}
-                                                </a>
+                                            <a href = {rmpURL + key.instructor} target="_blank" rel="noopener noreferrer" style = {{color:"purple"}}>
+                                                {key.instructor}
+                                            </a>
                                             }
                                         </td>
                                         <td>
@@ -194,7 +207,7 @@ class SearchResults extends Component{
                                     {meetings.length > 1 && meetings.map((key,index) => {
                                         if(index !== 0){
                                             return(
-                                                <tr key = {key}>
+                                                <tr key = {key} style = {{backgroundColor:rowColor, fontSize:"14px", fontFamily:"Roboto"}}>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
