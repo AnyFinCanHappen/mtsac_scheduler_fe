@@ -17,6 +17,7 @@ class LeftNavbar extends Component{
 
  
     render(){
+        const courseCount = Object.keys(this.props.selectedCourses).length;
         return(
             <>
             <Navbar variant="nav-link"  sticky = "top" className = "navbar-color">
@@ -25,7 +26,17 @@ class LeftNavbar extends Component{
                     Calendar
                 </Nav.Link>
                 <Nav.Link onClick = {(e) => {this.props.changeBlock(e,true)}} >
-                    Block Form
+                    Added Classes
+                    {courseCount > 0 &&
+                    <>
+                        <span>
+                            {" "}
+                        </span>
+                        <span className = "course-count">
+                            {courseCount}
+                        </span>
+                    </>
+                    }
                 </Nav.Link>  
                     <Nav.Link onClick = {(e)=>{this.changeSaveOverlay.current.handleSaveLink(e)}}>
                         Save

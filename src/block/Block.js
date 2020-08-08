@@ -97,11 +97,24 @@ class Block extends Component{
     }
 
     render(){
-        return(
-            <div>
-                <this.displayCards></this.displayCards>
-            </div>
-        );
+        const {selectedCourses} = this.props;
+        if(Object.keys(selectedCourses).length === 0){
+            return(
+                <div>
+                    No Classes have been added yet.
+                    <br>
+                    </br>
+                    Go add some classes!
+                </div>
+            );
+        }
+        else{
+            return(
+                <div>
+                    <this.displayCards></this.displayCards>
+                </div>
+            );
+        }
     }
 }
-export default Block
+export default Block;
