@@ -18,7 +18,7 @@ async function parseHTML(param){
     })
     await JSDOM.fromURL(Url + SearchEP + param, {resources: resourceLoader})
     .then(dom => {
-        console.log("Recieved response from: " + Url + SearchEP + ", now parsing html.");
+        //console.log("Recieved response from: " + Url + SearchEP + ", now parsing html.");
         dom.window.document.querySelectorAll("tr").forEach(item =>{
             const outputString = item.textContent.replace(/[\n\r]+|[\s]{3,}/g, "||");
             const split = outputString.split("||").filter(text => (text !== "" && text !== " "));
@@ -109,34 +109,70 @@ function organizeString(text, isClassInfo){
                 }
             }
             let lastIndex = text.length - 1;
-            for(let i = lastIndex; i > lastIndex - 8; i --){
-                switch(i){
-                    case lastIndex - 7:
-                        classInfo.location.push(text[i].trim());
-                        break;
-                    case lastIndex - 6:
-                        classInfo.capacity = text[i];
-                        break;
-                    case lastIndex - 5:
-                        classInfo.activated = text[i];
-                        break;
-                    case lastIndex - 3:
-                        classInfo.instructor = text[i];
-                        break;
-                    case lastIndex - 2:
-                        classInfo.email = text[i];
-                        break;
-                    case lastIndex - 1:
-                        classInfo.date.push(text[i]);
-                        break;
-                    case lastIndex:
-                        classInfo.weeks = text[i];
-                        break;
-                    default:
-                        break;
+            let meetingData;
+            let isStaff = false;
+            text.forEach((item)=>{
+                if(item === "Staff")
+                    isStaff = true;
+            })
+            if(isStaff){
+                for(let i = lastIndex; i > lastIndex - 7; i --){
+                    switch(i){
+                        case lastIndex - 6:
+                            classInfo.location.push(text[i].trim());
+                            break;
+                        case lastIndex - 5:
+                            classInfo.capacity = text[i];
+                            break;
+                        case lastIndex - 4:
+                            classInfo.activated = text[i];
+                            break;
+                        case lastIndex - 2:
+                            classInfo.instructor = text[i];
+                            break;
+                        case lastIndex - 1:
+                            classInfo.date.push(text[i]);
+                            break;
+                        case lastIndex:
+                            classInfo.weeks = text[i];
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                meetingData = text.slice(4, text.length - 7);
             }
-            let meetingData = text.slice(4, text.length - 8);
+            else{
+                for(let i = lastIndex; i > lastIndex - 8; i --){
+                    switch(i){
+                        case lastIndex - 7:
+                            classInfo.location.push(text[i].trim());
+                            break;
+                        case lastIndex - 6:
+                            classInfo.capacity = text[i];
+                            break;
+                        case lastIndex - 5:
+                            classInfo.activated = text[i];
+                            break;
+                        case lastIndex - 3:
+                            classInfo.instructor = text[i];
+                            break;
+                        case lastIndex - 2:
+                            classInfo.email = text[i];
+                            break;
+                        case lastIndex - 1:
+                            classInfo.date.push(text[i]);
+                            break;
+                        case lastIndex:
+                            classInfo.weeks = text[i];
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                meetingData = text.slice(4, text.length - 8);
+            }
+
             let meetingInfo = {
                 "meetings":[]
             };
