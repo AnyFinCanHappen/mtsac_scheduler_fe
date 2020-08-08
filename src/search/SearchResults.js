@@ -127,7 +127,7 @@ class SearchResults extends Component{
                 return(
                     <div key = {num} className = "table-responsive">
                     <OverlayTrigger trigger = "click" rootClose placement = "right" overlay = {this.popover(className)}>     
-                        <Button variant = "primary" size = "lg" className = "btn-description">{className}</Button>
+                        <Button variant = "primary" size = "lg" className = "btn-description" style = {{backgroundColor: "#F17171"}}>{className}</Button>
                     </OverlayTrigger>
                     <br></br>
                     <Table size = "sm" key = {num}>

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import DropDown from 'react-bootstrap/Dropdown';
 import Subject from "../constants/Subjects.json"
-import "../css/search.css"
+import "../css/search_form.css"
 
 
 
@@ -44,7 +44,7 @@ class SubjectBar extends Component{
         return(
             
             <DropDown onSelect = {this.handleSelect} >
-                <DropDown.Toggle  onSelect = {this.handleSelect}>
+                <DropDown.Toggle className = "dropdown-search" style = {{backgroundColor: "white", color:"black"}}>
                     {title}
                 </DropDown.Toggle>
                 <DropDown.Menu className = "dropdown-menu-search">
