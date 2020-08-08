@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
 import Courses from "../util/Courses";
-import Constants from "../constants/BackendEP.json"
+import Constants from "../constants/BackendEP.json";
+import WebScrape from "../util/WebScrape";
+
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover  from 'react-bootstrap/Popover';
-import WebScrape from "../util/WebScrape";
+import { TransverseLoading } from 'react-loadingg';
+
 import "../css/search_result.css"
 
 class SearchResults extends Component{
@@ -261,7 +264,8 @@ class SearchResults extends Component{
         else{
             return(
                 <div>
-                    loading
+                    <TransverseLoading size = "large" color = "red"></TransverseLoading>
+                    <div className = "loading-text">Mt. Sac servers are slow, sorry for the inconvience.</div>
                 </div>
             );
         }
