@@ -2,4 +2,13 @@
   color: white;
 }
 
+.nav-link:hover{
+  color: white;
+  font-weight:bold;
+}
+
+.navbar-color{
+  background-color: rgb(180, 68, 68);
+}
+
 

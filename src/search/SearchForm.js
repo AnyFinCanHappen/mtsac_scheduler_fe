@@ -158,7 +158,7 @@ class SearchForm extends Component{
         const {isSearch, query, isError, errorMessage} = this.state;
         return(
             <div>
-                <Navbar variant="nav-link" bg="dark" sticky = "top">
+                <Navbar variant="nav-link" sticky = "top" className = "navbar-color">
                     <Nav className='m-auto'>
                         <Nav.Item >
                             <Nav.Link onClick = {() => {this.setState({isSearch:false})}} >

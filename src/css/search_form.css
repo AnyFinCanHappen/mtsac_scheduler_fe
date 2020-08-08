@@ -1,0 +1,17 @@
+.dropdown-search{
+    background-color:white;
+    color:black;
+    border-color:black;
+}
+
+.dropdown-search:focus, .dropdown-search:active, .dropdown-search:hover{
+    background-color:white !important;
+    border-color:black;
+    color:black !important;
+}
+
+
+.dropdown-menu-search {
+    height: 500px;
+    overflow-y: scroll;
+}
