@@ -50,7 +50,7 @@ class SaveCourseOverlay extends Component{
             this.setState({isSaving:true});
             Courses.saveCourses(payload)
             .then(response =>{
-                console.log(response);
+                //console.log(response);
                 if(response.data.resultCode === classSuccessCode){
                     this.setState({
                         isSaving:false,

@@ -28,32 +28,33 @@ class SearchResults extends Component{
     }
 
     getClassInfo = () =>{
-        console.log("sending")
         const payload = this.props.query;
         
         /*
-        //When front end does websraping
-        let query = WebScrape.constructQueryParam(payload);
-        WebScrape.parseHTML(query)
+        //When backend does webscraping
+        Courses.getCourses(payload)
         */
 
-        //When backend does webscraping
-        Courses.getCourses(payload)        
+
+        //When front end does websraping
+        let query = WebScrape.constructQueryParam(payload);
+        WebScrape.parseHTML(query)                
         .then(response =>{
             
             /*
-            //When front end does websraping
-            const classes = response.classInfo;
-            const descriptions = response.classDescription;
-            const courseOrder = response.courseOrder;
-            */
-            
             //when back end does webscraping (use only for development)
             const classes = response.data.classInfo;
             const descriptions = response.data.classDescription;
             const courseOrder = response.data.courseOrder;
+            */
+            
 
-            console.log(response);
+            //When front end does websraping
+            const classes = response.classInfo;
+            const descriptions = response.classDescription;
+            const courseOrder = response.courseOrder;           
+
+            //console.log(response);
             
             if(classes.length !== 0){
                 let map = {}
@@ -78,7 +79,6 @@ class SearchResults extends Component{
                     classInfo:map,
                     courseOrder:courseOrder
                 });
-                console.log("Got data!");
             }
             else{
                 this.setState({
@@ -175,8 +175,10 @@ class SearchResults extends Component{
                             else{
                                 rowColor = "white";
                             }
+                            let randomNum = Math.floor(Math.random() * 100) + Number.parseInt(index);
+                            
                             return(
-                                <tbody key = {key.crn + ":" + index} >
+                                <tbody key = {key.CRN + randomNum} >
                                     <tr style = {{backgroundColor:rowColor, fontSize:"14px", fontFamily:"Roboto"}}>
                                         <td>
                                             {
@@ -190,10 +192,12 @@ class SearchResults extends Component{
                                         <td>{key.CRN}</td>
                                         <td>{key.cred}</td>
                                         <td>
-                                            {key.status !== "Hold" && key.status !== "Cancelled" &&
+                                            {key.status !== "Hold" && key.status !== "Cancelled" ?
                                             <a href = {rmpURL + key.instructor} target="_blank" rel="noopener noreferrer" style = {{color:"purple"}}>
                                                 {key.instructor}
                                             </a>
+                                            :
+                                            key.instructor
                                             }
                                         </td>
                                         <td>
@@ -208,9 +212,10 @@ class SearchResults extends Component{
                                         <td style = {{color:enrollmentStatusColor}}>{key.status}</td>
                                     </tr>
                                     {meetings.length > 1 && meetings.map((key,index) => {
+                                        randomNum = Math.floor(Math.random() * 100) + index;
                                         if(index !== 0){
                                             return(
-                                                <tr key = {key} style = {{backgroundColor:rowColor, fontSize:"14px", fontFamily:"Roboto"}}>
+                                                <tr key = {key.CRN + randomNum} style = {{backgroundColor:rowColor, fontSize:"14px", fontFamily:"Roboto"}}>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
