@@ -6,7 +6,8 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
-import "../css/delete_button.css"
+import "../css/delete_button.css";
+import "../css/search_result.css"
 
 class Block extends Component{
     state = {}
@@ -56,7 +57,6 @@ class Block extends Component{
                 </tbody>
             </Table>
         );
-
     }
 
     displayCards = () =>{
@@ -83,6 +83,8 @@ class Block extends Component{
                                     {"CRN: " + item}
                                     <br></br>
                                     {"Instructor: " + course.instructor}
+                                    <br></br>
+                                    {"Cred:" + course.cred}
                                 </Card.Text>
                                 <this.displayMeetingTimes meetings = {meetings} location = {location}/>
                             </Card.Body>
@@ -96,11 +98,37 @@ class Block extends Component{
         );
     }
 
+    displayUnits = () =>{
+        const {selectedCourses} = this.props;
+        let totalCred = 0.0;
+        Object.keys(selectedCourses).map((item)=>{
+            const course = selectedCourses[item];
+            totalCred += Number.parseFloat(course.cred);
+            return null;
+        })
+        return(
+            <Table striped bordered size = "sm" style = {{backgroundColor:"white"}}>
+                <thead>
+                    <tr>
+                        <th>Total classes</th>
+                        <th>Total Cred</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{Object.keys(selectedCourses).length}</td>
+                        <td>{totalCred}</td>
+                    </tr>
+                </tbody>
+            </Table>
+        );
+    }
+
     render(){
         const {selectedCourses} = this.props;
         if(Object.keys(selectedCourses).length === 0){
             return(
-                <div>
+                <div className = "loading-text">
                     No Classes have been added yet.
                     <br>
                     </br>
@@ -111,6 +139,7 @@ class Block extends Component{
         else{
             return(
                 <div>
+                    <this.displayUnits></this.displayUnits>
                     <this.displayCards></this.displayCards>
                 </div>
             );
