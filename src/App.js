@@ -45,6 +45,7 @@ class App extends Component{
         instructor:course.instructor,
         meetingTimes:course.meetingTimes,
         location:course.location,
+        cred:course.cred
       };
       if(Object.keys(courseInfo).length >= 20){
         courseInfo.color = "4363d8"

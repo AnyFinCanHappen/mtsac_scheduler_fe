@@ -63,7 +63,7 @@ function timeToMilitary(time){
 
 
 function parseTime(course) {
-    const {meetingTimes, name, instructor,location} = course;
+    const {meetingTimes, name, instructor,location, cred} = course;
     const {meetings} = meetingTimes;
     let eventList = [];
     meetings.forEach((meeting,index) =>{
@@ -80,7 +80,8 @@ function parseTime(course) {
                     resource:{
                         instructor:instructor,
                         CRN: course.CRN,
-                        location: location[index]
+                        location: location[index],
+                        cred:cred
                     }
                 }
                 eventList.push(event)    

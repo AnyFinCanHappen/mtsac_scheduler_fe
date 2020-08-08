@@ -27,7 +27,8 @@ class Calendar extends Component{
             title: eventObject.title,
             CRN: resource.CRN,
             location: resource.location,
-            instructor: resource.instructor
+            instructor: resource.instructor,
+            cred:resource.cred
         }
         let show;
         if(target !== e.target){
@@ -124,6 +125,8 @@ class Calendar extends Component{
                         {"CRN: " + popoverData.CRN}
                         <br/> 
                         {"Instructor: " + popoverData.instructor}
+                        <br/>
+                        {"Cred: " + popoverData.cred}
                         <br/>
                         {"Location: " + popoverData.location}
                         <br/>
