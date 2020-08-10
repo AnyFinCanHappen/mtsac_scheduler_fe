@@ -64,7 +64,7 @@ class Block extends Component{
         return(
             <CardDeck >
                 <Container fluid>
-                <Row xs = {1} lg = {3}>
+                <Row xs = {1} sm = {2} lg = {3}>
                 {Object.keys(selectedCourses).map((item,index) =>{
                     const course = selectedCourses[item];
                     const {meetingTimes, location} = course;
@@ -111,7 +111,7 @@ class Block extends Component{
                 <thead>
                     <tr>
                         <th>Total classes</th>
-                        <th>Total Cred</th>
+                        <th>Total Credits</th>
                     </tr>
                 </thead>
                 <tbody>
