@@ -3,9 +3,9 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./css/column.css"
 import "./css/nav_bar.css"
 import Navbar from "react-bootstrap/Navbar"
+import Nav from "react-bootstrap/Nav"
 import EventMaker from "./util/EventMaker";
 import SearchForm from "./search/SearchForm";
 import Calendar from "./calender/Calendar"
@@ -97,17 +97,20 @@ class App extends Component{
 
   render(){
     const {isBlockForm,selectedCourses, eventList, height} = this.state;
-    const colHeight = String.toString(height - 56) + "vh";
+    let colHeight = (height - 56).toString(10) + "px"
     return ( 
       <div style = {{backgroundColor: "#a9bedf"}}>
-        <Navbar sticky = "top" className = "navbar-main">
+        <Navbar sticky = "top" className = "navbar-main" variant = "nav-link-info">
           <Navbar.Brand style ={{color:"white"}}>
-              Mountie Planner
+            Mountie Planner
           </Navbar.Brand>
+          <Nav className = "ml-auto">
+            <Nav.Link >Info</Nav.Link>
+          </Nav>
         </Navbar>
-        <Container fluid>
+        <Container fluid >
           <Row>
-            <Col className = "column-scroll px-0" style = {{height:colHeight}}>
+            <Col className = "px-0" style = {{overflowY:"auto", height:colHeight}}>
               <LeftNavBar 
                 loadCourse = {this.loadCourse}
                 changeBlock = {this.changeBlock} 
@@ -119,7 +122,7 @@ class App extends Component{
                 <Calendar eventList = {this.state.eventList} selectedCourses = {this.state.selectedCourses} deleteCourse = {this.deleteCourse}/>
               }
             </Col>
-            <Col className = "column-scroll">
+            <Col style = {{overflowY:"auto", height:colHeight}}>
               <SearchForm pushCourse = {this.pushCourse}/>
             </Col>
           </Row>
