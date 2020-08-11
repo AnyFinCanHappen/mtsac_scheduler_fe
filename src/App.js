@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./css/nav_bar.css"
 import Navbar from "react-bootstrap/Navbar"
 import Nav from "react-bootstrap/Nav"
+import Info from "./info/Info"
 import EventMaker from "./util/EventMaker";
 import SearchForm from "./search/SearchForm";
 import Calendar from "./calender/Calendar"
@@ -21,7 +22,8 @@ class App extends Component{
       eventList:[],
       isBlockForm: false,
       showPopover: false,
-      height:0
+      height:0,
+      showInfoPage:false
     }
   }
 
@@ -96,19 +98,22 @@ class App extends Component{
 
 
   render(){
-    const {isBlockForm,selectedCourses, eventList, height} = this.state;
+    const {isBlockForm,selectedCourses, eventList, height,showInfoPage} = this.state;
     let colHeight = (height - 56).toString(10) + "px"
     return ( 
       <div style = {{backgroundColor: "#a9bedf"}}>
         <Navbar sticky = "top" className = "navbar-main" variant = "nav-link-info">
-          <Navbar.Brand style ={{color:"white"}}>
-            Mountie Planner
-          </Navbar.Brand>
+          <Nav>
+            <Nav.Link onClick = {() => {this.setState({showInfoPage:false})}}>Mountie Planner</Nav.Link>
+          </Nav>
           <Nav className = "ml-auto">
-            <Nav.Link >Info</Nav.Link>
+            <Nav.Link onClick = {() => {this.setState({showInfoPage:true})}}>Info</Nav.Link>
           </Nav>
         </Navbar>
-        <Container fluid >
+        <Container fluid>
+          {showInfoPage ? 
+          <Info colHeight = {colHeight} ></Info>
+          :         
           <Row>
             <Col className = "px-0" style = {{overflowY:"auto", height:colHeight}}>
               <LeftNavBar 
@@ -126,6 +131,7 @@ class App extends Component{
               <SearchForm pushCourse = {this.pushCourse}/>
             </Col>
           </Row>
+          }
         </Container>
       </div>
     );
