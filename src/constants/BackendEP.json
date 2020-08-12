@@ -1,5 +1,5 @@
 {
-    "backendURL":"http://mountieplanner.com/api",
+    "backendURL":"https://mountieplanner.com/api",
     "retrieveClassesEP":"search",
     "saveClassesEP":"save",
     "loadClassesEP":"load",
