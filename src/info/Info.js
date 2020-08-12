@@ -31,7 +31,7 @@ class Info extends Component{
                       <br></br>
                       4) Fix course descrition format
                       <br></br>
-                      5) Uusers can choose to save calander locally or on cloud (currently, can only save on the cloud)  
+                      5) Users can choose to save calander locally or on cloud (currently, can only save on the cloud)  
                     </p>
                     <div className = "section-title">
                         About Me and The Mountie Planner.
@@ -44,7 +44,9 @@ class Info extends Component{
                         Want to Help?
                     </div>
                     <p>
-                        If you think the website could use some more improvements or you wanna copy and pasta my code, check out the github page!
+                        If you think the website could use some more improvements or you wanna copy and pasta my code, check out {"the "}
+                        <a href = "https://github.com/AnyFinCanHappen/mtsac_scheduler_fe" target="_blank" rel="noopener noreferrer">GitHub</a>
+                        {" page!"}
                         <br></br>
                         If there are any questions or issues feel free to email at 
                         <br></br>
