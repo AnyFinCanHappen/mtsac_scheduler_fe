@@ -34,8 +34,56 @@ class SearchResults extends Component{
         //When backend does webscraping
         Courses.getCourses(payload)
         */
+        Courses.getCourses(payload)
+        .then(htmlPage =>{
+            console.log(htmlPage.data);
+            WebScrape.parseHTML(htmlPage.data)
+            .then(response =>{
+                console.log(response);
+                const classes = response.classInfo;
+                const descriptions = response.classDescription;
+                const courseOrder = response.courseOrder;  
+                if(classes.length !== 0){
+                    let map = {}
+                    let classDescriptionMap = {}
+                    classes.forEach(item =>{
+                        if(map[item.name]){
+                            map[item.name].push(item);
+                        }
+                        else{
+                            map[item.name] = [];
+                            map[item.name].push(item);
+                        }
+                    });  
+                    descriptions.forEach(item =>{
+                        if(!classDescriptionMap[item.course_id]){
+                            classDescriptionMap[item.course_id] = item;
+                        }
+                    })
+                    this.setState({
+                        result:true,
+                        classDescription:classDescriptionMap,
+                        classInfo:map,
+                        courseOrder:courseOrder
+                    });
+                }
+                else{
+                    this.setState({
+                        isError:true,
+                        errorMessage:"No courses found."
+                    })
+                }
+            })
+        })
+        .catch(err =>{
+            console.log(err);
+            this.setState({
+                isError:true,
+                errorMessage:"Server Error!"
+            })
+        });
 
-
+        /*
         //When front end does websraping
         let query = WebScrape.constructQueryParam(payload);
         WebScrape.parseHTML(query)                
@@ -48,7 +96,7 @@ class SearchResults extends Component{
             const courseOrder = response.data.courseOrder;
             */
             
-
+            /*
             //When front end does websraping
             const classes = response.classInfo;
             const descriptions = response.classDescription;
@@ -94,6 +142,7 @@ class SearchResults extends Component{
                 errorMessage:"Server Error!"
             })
         });
+        */
     }
 
     popover = (className) =>{

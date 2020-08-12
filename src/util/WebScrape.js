@@ -1,23 +1,17 @@
 import Course from "./Courses"
-import Constants from "../constants/BackendEP.json"
-const {JSDOM, ResourceLoader} = require("jsdom");
+const {JSDOM} = require("jsdom");
+
 
 
 async function parseHTML(param){
     const retrievedClasses = 200;
-    const Url = Constants.MtSac.url;
-    const SearchEP = Constants.MtSac.searchEP;
     let classInfo = [];
     let info ={
         "isClass":false
-    }
+    }  
     let classIDMap = {}
     let courseOrder = [];
-    const resourceLoader = new ResourceLoader({
-        strictSSL:false
-    })
-    await JSDOM.fromURL(Url + SearchEP + param, {resources: resourceLoader})
-    .then(dom => {
+    let dom =  await new JSDOM(param.html)
         //console.log("Recieved response from: " + Url + SearchEP + ", now parsing html.");
         dom.window.document.querySelectorAll("tr").forEach(item =>{
             const outputString = item.textContent.replace(/[\n\r]+|[\s]{3,}/g, "||");
@@ -38,7 +32,7 @@ async function parseHTML(param){
                 }
             }
         })
-    })
+    
     let mongoFindCommand = [];
     Object.keys(classIDMap).forEach(key =>{
         mongoFindCommand.push({
@@ -68,6 +62,14 @@ async function parseHTML(param){
                 "coursesFound":true
             }
         }
+    })
+    .catch(error =>{
+        finalResponse = {
+            "classInfo":classInfo,
+            "courseOrder":courseOrder,
+            "classDescription":[],
+            "coursesFound":true
+        }        
     })
     return finalResponse;
 }
@@ -297,3 +299,33 @@ export default {
     parseHTML,
     constructQueryParam
 }
+
+
+/*
+    const resourceLoader = new ResourceLoader({
+        strictSSL:false
+    })
+    await JSDOM.fromURL(Url + SearchEP + param, {resources: resourceLoader})
+        .then(dom => {
+        //console.log("Recieved response from: " + Url + SearchEP + ", now parsing html.");
+        dom.window.document.querySelectorAll("tr").forEach(item =>{
+            const outputString = item.textContent.replace(/[\n\r]+|[\s]{3,}/g, "||");
+            const split = outputString.split("||").filter(text => (text !== "" && text !== " "));
+            info = organizeString(split,info.isClass);
+            if(info.isClass){
+                if(Object.keys(info).length === 2){
+                    classInfo.push(info.classInfo);
+                    if(!classIDMap[info.classInfo.name]){
+                        classIDMap[info.classInfo.name] = true;
+                        courseOrder.push(info.classInfo.name);
+                    }
+                }
+                else{
+                    classInfo[classInfo.length - 1].location.push(info.location);
+                    classInfo[classInfo.length - 1].date.push(info.date);
+                    classInfo[classInfo.length - 1].meetingTimes.meetings.push(info.meetingInfo);
+                }
+            }
+        })
+    })
+*/
