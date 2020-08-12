@@ -54,12 +54,20 @@ class LoadCourseOverlay extends Component{
                 }
                 else{
                     this.setState({
-                        isSavign:false,
+                        isLoading:false,
                         resultCode:response.data.resultCode,
                         isError:true,
                         errorMessage:response.data.message
                     })
                 }
+            })
+            .catch(err =>{
+                this.setState({
+                    isLoading:false,
+                    resultCode:404,
+                    isError:true,
+                    errorMessage:"Server Error."
+                })
             })          
         }
         else{

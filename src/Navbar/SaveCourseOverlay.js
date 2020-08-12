@@ -65,7 +65,15 @@ class SaveCourseOverlay extends Component{
                         errorMessage: response.data.message
                     })
                 }
-            });
+            })
+            .catch(err =>{
+                this.setState({
+                    isSavign:false,
+                    resultCode:404,
+                    isError:true,
+                    errorMessage:"Server Error."
+                })
+            });      
         }
         else{
             this.setState({
