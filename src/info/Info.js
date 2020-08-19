@@ -17,7 +17,7 @@ class Info extends Component{
                         New Features
                     </div>
                     <p>
-                        No new features yet, newly released website :) Any new features will be posted here.
+                        -Can now change event colors in calander (custom events coming soon).
                     </p>
                     <div className = "section-title">
                         Planned Features

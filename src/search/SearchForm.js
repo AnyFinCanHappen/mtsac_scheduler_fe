@@ -21,7 +21,7 @@ import "../css/nav_bar.css"
         "sel_sess": "dummy",
         "sel_instr": [ "dummy", "%25" ],
         "sel_ptrm": [ "dummy", "%25" ],
-        "sel_attr": [ "%25", "%25" ],
+        "sel_attr": [ "%25", "%25" ],       //push into array for special type of class section 
         "sel_crse": "",
         "sel_crn": "",
         "sel_title": "",
