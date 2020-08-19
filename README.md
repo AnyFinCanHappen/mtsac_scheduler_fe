@@ -3,3 +3,19 @@
 Web app that will help students schedule their classes.
 
 
+## How to install for development
+1)  Clone repository into your local repository
+2)  Install dependencies using npm
+      ```
+      npm install
+      ```
+3)  Run the web app
+    ```
+    npm start
+    ```
+    Now you should be able to see the webpage by typing in **http://localhost:3000** in your browser. 
+    
+    Development webpage cannot access backend API due to certificate issues, will fix later.
+    (sorry for the inconvenience).
+    
+    From here, you are ready for development!
