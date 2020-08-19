@@ -1,0 +1,21 @@
+.button-change-color{
+    border-radius: 50%;
+    float:right;
+    border-color: transparent;
+}
+
+.button-color{
+    font-size: xx-small;
+    border-color: transparent;
+}
+
+.span-padding{
+    padding:5x;
+    margin-right:5px; 
+    display:inline-block;
+}
+
+.overlay-color{
+    position: relative;
+    background-color: red;
+}

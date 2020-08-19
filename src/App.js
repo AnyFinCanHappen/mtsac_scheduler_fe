@@ -96,6 +96,13 @@ class App extends Component{
     });
   }
 
+  changeCourseColor = (CRN,color) =>{
+   this.setState(state =>{
+     state.selectedCourses[CRN].color = color
+     return state
+   })
+  }
+
 
   render(){
     const {isBlockForm,selectedCourses, eventList, height,showInfoPage} = this.state;
@@ -124,7 +131,7 @@ class App extends Component{
               >
               </LeftNavBar>
               {isBlockForm ?  <Block selectedCourses = {this.state.selectedCourses} deleteCourse = {this.deleteCourse}></Block> :
-                <Calendar eventList = {this.state.eventList} selectedCourses = {this.state.selectedCourses} deleteCourse = {this.deleteCourse}/>
+                <Calendar eventList = {this.state.eventList} selectedCourses = {this.state.selectedCourses} deleteCourse = {this.deleteCourse} changeCourseColor = {this.changeCourseColor}/>
               }
             </Col>
             <Col style = {{overflowY:"auto", height:colHeight}}>

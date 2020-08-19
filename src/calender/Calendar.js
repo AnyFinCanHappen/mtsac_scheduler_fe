@@ -5,10 +5,13 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import Popover  from 'react-bootstrap/Popover';
 import Overlay from 'react-bootstrap/Overlay';
 import Button from 'react-bootstrap/Button';
-import "../css/delete_button.css"
+import ColorList from "../constants/Colors.json";
+import "../css/delete_button.css";
+import "../css/Calendar.css";
 
 
-const localizer = momentLocalizer(moment)
+const localizer = momentLocalizer(moment);
+const {colorList} = ColorList;
 class Calendar extends Component{
     constructor(props){
         super(props);
@@ -16,7 +19,8 @@ class Calendar extends Component{
             showPopover : false,
             target : null,
             prevTarget:null,
-            popoverData : null
+            popoverData : null,
+            showColorPopover : false
         };
     }
 
@@ -28,7 +32,7 @@ class Calendar extends Component{
             CRN: resource.CRN,
             location: resource.location,
             instructor: resource.instructor,
-            cred:resource.cred
+            cred:resource.cred,
         }
         let show;
         if(target !== e.target){
@@ -48,6 +52,13 @@ class Calendar extends Component{
         });
     }
 
+    hideDetail = (e) =>{
+        const {target, showColorPopover} = this.state;
+        if(target !== e.target && !showColorPopover){
+            this.setState({showPopover:false});
+        }
+    }
+
     handleDelete = (e, CRN) =>{
         this.props.deleteCourse(e,CRN);
         this.setState({showPopover:false});
@@ -65,6 +76,16 @@ class Calendar extends Component{
         };
     }
 
+    changeColor = (CRN, color) =>{
+        this.props.changeCourseColor(CRN,color);
+    }
+
+    setColorTarget = (e) =>{
+        this.setState({
+            showColorPopover:true
+        });
+    }
+
     Event = ({event}) =>{
         return(
             <span>
@@ -76,15 +97,11 @@ class Calendar extends Component{
         );
     }
 
-    testfunc = (e) =>{
-        const {target} = this.state;
-        if(target !== e.target){
-            this.setState({showPopover:false});
-        }
-    }
+
 
     render(){
-        const {showPopover, target, popoverData} = this.state;
+        const {showPopover, target, popoverData, showColorPopover} = this.state;
+        const {selectedCourses} = this.props;
         return(
             <div>
                 <BigCalendar
@@ -112,8 +129,9 @@ class Calendar extends Component{
                     style = {{backgroundColor:"white"}}
                 />
                 {popoverData !== null &&
-                <Overlay show = {showPopover} target = {target} rootClose onHide = {this.testfunc}>
-                    <Popover id = "popover-basic">
+                <div >
+                <Overlay show = {showPopover} target = {target} rootClose = {true} onHide = {this.hideDetail}>
+                    <Popover id = "popover-basic" >
                     <Button size = "sm" className = "btn-delete" onClick = {(e) => this.handleDelete(e, popoverData.CRN)} >
                         <img src = "../image/trashbin2.png" alt = {"x"} className = "trashbin"></img>
                     </Button> 
@@ -130,9 +148,45 @@ class Calendar extends Component{
                         <br/>
                         {"Location: " + popoverData.location}
                         <br/>
+                        Color:
+                        <button 
+                            style = {{backgroundColor:"#" + selectedCourses[popoverData.CRN].color, color: "#" + selectedCourses[popoverData.CRN].color}} 
+                            className = "button-change-color"
+                            onClick = {(e) => this.setColorTarget(e)}
+                            >a
+                        </button>
+                    
+                        <br/>
                     </Popover.Content>
                     </Popover>
-                </Overlay>}
+                </Overlay>
+                <Overlay show = {showColorPopover} target = {target} rootClose = {true} onHide = {() =>{this.setState({showColorPopover:false})}} placement = "right" >
+                    <Popover id = "popover-basic" >
+                        <Popover.Title as = "h3">Change Color</Popover.Title>
+                        <Popover.Content>
+                            {colorList.map((item,index) =>{
+                                const buttonColor = "#" + item;
+                                return(
+                                    <React.Fragment  key = {item + index + popoverData.CRN + 3} >
+                                        <span className = "span-padding"  key = {item + index + popoverData.CRN + 2}>
+                                        <button 
+                                            className = "button-color" 
+                                            style = {{backgroundColor:buttonColor, color: buttonColor}} 
+                                            onClick = {() =>{this.changeColor(popoverData.CRN, item)}}
+                                            key = {item + index + popoverData.CRN  + 1}
+                                        >
+                                        a
+                                        </button>
+                                        </span>
+                                        {(index + 1) % 5 === 0 && <br></br>}
+                                    </React.Fragment>
+                                );
+                            })}
+                        </Popover.Content>
+                    </Popover>
+                </Overlay>
+                </div>
+                }
             </div>
         );
     }
