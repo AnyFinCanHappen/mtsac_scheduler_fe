@@ -27,13 +27,25 @@ class Calendar extends Component{
     handleEventClick = (eventObject, e) =>{
         const {showPopover,target} = this.state;
         const {resource} = eventObject;
-        let popoverData = {
-            title: eventObject.title,
-            CRN: resource.CRN,
-            location: resource.location,
-            instructor: resource.instructor,
-            cred:resource.cred,
+        let popoverData = {};
+        if(resource.isCustom){
+            popoverData = {
+                title:eventObject.title,
+                CRN: resource.CRN,
+                isCustom:resource.isCustom
+            }
         }
+        else{
+            popoverData = {
+                title: eventObject.title,
+                CRN: resource.CRN,
+                location: resource.location,
+                instructor: resource.instructor,
+                cred:resource.cred,
+                isCustom:resource.isCustom
+            }
+        }
+
         let show;
         if(target !== e.target){
             show = true;
@@ -61,7 +73,7 @@ class Calendar extends Component{
 
     handleDelete = (e, CRN) =>{
         this.props.deleteCourse(e,CRN);
-        this.setState({showPopover:false});
+        this.setState({showPopover:false, popoverData:null});
     }
 
     assignColor = (event,start,end, isSelected) =>{
@@ -87,14 +99,23 @@ class Calendar extends Component{
     }
 
     Event = ({event}) =>{
-        return(
-            <span>
-                <strong>{event.title}</strong>
-                <br></br>
-                {"CRN: " + event.resource.CRN}
-            </span>
-            
-        );
+        if(!event.resource.isCustom){
+            return(
+                <span> 
+                    <strong>{event.title}</strong>
+                    <br></br>
+                    {"CRN: " + event.resource.CRN}
+                </span>
+            );
+        }
+        else{
+            return(
+                <span> 
+                    <strong>{event.title}</strong>
+                    <br></br>
+                </span>
+            );            
+        }
     }
 
 
@@ -137,17 +158,20 @@ class Calendar extends Component{
                     </Button> 
                     <Popover.Title as = "h3">
                         {popoverData.title}
-
                     </Popover.Title>
                     <Popover.Content>
-                        {"CRN: " + popoverData.CRN}
-                        <br/> 
-                        {"Instructor: " + popoverData.instructor}
-                        <br/>
-                        {"Cred: " + popoverData.cred}
-                        <br/>
-                        {"Location: " + popoverData.location}
-                        <br/>
+                        {!popoverData.isCustom &&
+                        <div>
+                            {"CRN: " + popoverData.CRN}
+                            <br/> 
+                            {"Instructor: " + popoverData.instructor}
+                            <br/>
+                            {"Cred: " + popoverData.cred}
+                            <br/>
+                            {"Location: " + popoverData.location}
+                            <br/>
+                        </div>
+                        }
                         Color:
                         <button 
                             style = {{backgroundColor:"#" + selectedCourses[popoverData.CRN].color, color: "#" + selectedCourses[popoverData.CRN].color}} 
@@ -155,7 +179,6 @@ class Calendar extends Component{
                             onClick = {(e) => this.setColorTarget(e)}
                             >a
                         </button>
-                    
                         <br/>
                     </Popover.Content>
                     </Popover>

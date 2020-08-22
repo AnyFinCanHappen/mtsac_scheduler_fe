@@ -81,7 +81,8 @@ function parseTime(course) {
                         instructor:instructor,
                         CRN: course.CRN,
                         location: location[index],
-                        cred:cred
+                        cred:cred,
+                        isCustom:false
                     }
                 }
                 eventList.push(event)    
@@ -118,8 +119,79 @@ function convertResponseIntoDate(eventList){
     return updatedEventList;
 }
 
+function timeToMilitaryCustom(time){
+    let hour = time.hour;
+    if(hour === "12"){
+        hour = "00";
+    }
+    if(time.midday === "pm"){
+        hour = parseInt(hour,10) + 12;
+    }
+    return {
+        hour:hour,
+        minute:time.minute
+    }
+}
+
+function parseTimeCustom(event){
+    const {title, startHour, startMinute, startMidday, endHour, endMinute, endMidday, isMonday, isTuesday, isWednesday, isThursday, isFriday, CRN} = event;
+    let eventList = [];
+    let start = {
+        hour:startHour,
+        minute:startMinute,
+        midday:startMidday
+    }
+    let end = {
+        hour:endHour,
+        minute:endMinute,
+        midday:endMidday
+    }
+    let startTime = timeToMilitaryCustom(start);
+    let endTime = timeToMilitaryCustom(end);
+    let days = {
+        isMonday:isMonday,
+        isTuesday:isTuesday,
+        isWednesday:isWednesday,
+        isThursday:isThursday,
+        isFriday:isFriday
+    }
+    Object.keys(days).forEach(item =>{
+        let day;
+        if(days[item]){
+            if(item === "isMonday"){
+                day = 1;
+            }
+            else if(item === "isTuesday"){
+                day = 2;
+            }
+            else if(item === "isWednesday"){
+                day = 3;
+            }
+            else if(item === "isThursday"){
+                day = 4;
+            }
+            else{
+                day = 5
+            }
+            eventList.push({
+                title:title,
+                start: new Date(2018,0, day, startTime.hour, startTime.minute),
+                end: new Date(2018, 0, day, endTime.hour, endTime.minute),
+                allDay:false,
+                resource:{
+                    isCustom:true,
+                    CRN:CRN
+                }
+            }); 
+        }
+    });
+    return eventList;
+
+}
+
 export default {
     parseTime,
     removeEvents,
-    convertResponseIntoDate
+    convertResponseIntoDate,
+    parseTimeCustom
 };

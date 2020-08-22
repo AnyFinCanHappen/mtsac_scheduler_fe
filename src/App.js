@@ -61,7 +61,8 @@ class App extends Component{
         instructor:course.instructor,
         meetingTimes:course.meetingTimes,
         location:course.location,
-        cred:course.cred
+        cred:course.cred,
+        isCustom:false
       };
       if(Object.keys(courseInfo).length >= 20){
         courseInfo.color = "4363d8"
@@ -103,6 +104,28 @@ class App extends Component{
    })
   }
 
+  pushCustomEvent = (event) =>{
+    let {eventList, selectedCourses} = this.state;
+    let CRN =  Math.random().toString(36).slice(2); 
+    if(selectedCourses[CRN]){
+      CRN = Math.random().toString(36).slice(2); 
+    }
+    event.CRN = CRN;
+    let customEventList = EventMaker.parseTimeCustom(event);
+    customEventList.forEach(item =>{
+      eventList.push(item);
+    });
+    let customEventInfo = {
+      color: "4363d8",
+      isCustom:true
+    }
+    selectedCourses[CRN] = customEventInfo;
+    this.setState({
+      selectedCourses: selectedCourses,
+      eventList:eventList
+    });
+  }
+
 
   render(){
     const {isBlockForm,selectedCourses, eventList, height,showInfoPage} = this.state;
@@ -128,6 +151,7 @@ class App extends Component{
                 changeBlock = {this.changeBlock} 
                 selectedCourses = {selectedCourses}
                 eventList = {eventList}
+                pushCustomEvent = {this.pushCustomEvent}
               >
               </LeftNavBar>
               {isBlockForm ?  <Block selectedCourses = {this.state.selectedCourses} deleteCourse = {this.deleteCourse}></Block> :

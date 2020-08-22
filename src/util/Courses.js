@@ -3,7 +3,7 @@ import Constants from "../constants/BackendEP.json"
 
 let local = "http://localhost:3001/api/";   //used for development
 async function getCourses(payload){
-    let response = await Socket.sendPOSTHTTP(Constants.backendURL, Constants.retrieveClassesEP,payload);
+    let response = await Socket.sendPOSTHTTP(local, Constants.retrieveClassesEP,payload);
     return response;
 }
 
@@ -13,12 +13,12 @@ async function getDescription(payload){
 }
 
 async function saveCourses(payload){
-    let response = await Socket.sendPOSTHTTP(Constants.backendURL, Constants.saveClassesEP, payload);
+    let response = await Socket.sendPOSTHTTP(local, Constants.saveClassesEP, payload);
     return response
 }
 
 async function loadCourses(payload){
-    let response = await Socket.sendPOSTHTTP(Constants.backendURL, Constants.loadClassesEP, payload);
+    let response = await Socket.sendPOSTHTTP(local, Constants.loadClassesEP, payload);
     return response
 }
 

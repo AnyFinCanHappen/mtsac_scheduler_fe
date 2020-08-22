@@ -20,71 +20,76 @@ class Block extends Component{
                 <Row xs = {1} sm = {2} lg = {3}>
                 {Object.keys(selectedCourses).map((item,index) =>{
                     const course = selectedCourses[item];
-                    console.log(course);
-                    const {meetingTimes, location} = course;
-                    const {meetings} = meetingTimes;
-                    return(
-                        <Col key = {item + ":" + index} style={{padding: '5px'}}>
-                        <Card>
-                            <Card.Body>
-                            <Button size = "sm"  className = "btn-delete" onClick = {(e) => this.props.deleteCourse(e, item) } >
-                                <img src = "../image/trashbin2.png" alt = {"x"} className = "trashbin"/>
-                            </Button>
-                                <Card.Title>
-                                    {course.name}                                  
-                                </Card.Title>
-                                <Card.Text>
-                                    {"CRN: " + item}
-                                    <br></br>
-                                    {"Instructor: " + course.instructor}
-                                    <br></br>
-                                    {"Cred:" + course.cred}
-                                </Card.Text>
-                                <Table striped bordered size = "sm" >
-                                    <thead>
-                                        <tr>
-                                            <th>Times</th>
-                                            <th>Location</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                        <td>
-                                        {
-                                            meetings[0].info === "available" ? 
-                                            meetings[0].days + " " + meetings[0].time :
-                                            meetings[0].description
-                                        }
-                                        </td>
-                                        <td>{location[0]}</td>
-                                        </tr>
-                                        {meetings.length > 1 && meetings.map((key,index)=>{
-                                            if(index !== 0){
-                                                return(
-                                                    <tr key = {index}>
-                                                        <td>
-                                                            {
-                                                                key.info === "available" ?
-                                                                key.days + " " + key.time :
-                                                                key.description
+                    if(course.isCustom){
+                        return null
+                    }
+                    else{
+                        console.log(course);
+                        const {meetingTimes, location} = course;
+                        const {meetings} = meetingTimes;
+                        return(
+                            <Col key = {item + ":" + index} style={{padding: '5px'}}>
+                            <Card>
+                                <Card.Body>
+                                <Button size = "sm"  className = "btn-delete" onClick = {(e) => this.props.deleteCourse(e, item) } >
+                                    <img src = "../image/trashbin2.png" alt = {"x"} className = "trashbin"/>
+                                </Button>
+                                    <Card.Title>
+                                        {course.name}                                  
+                                    </Card.Title>
+                                    <Card.Text>
+                                        {"CRN: " + item}
+                                        <br></br>
+                                        {"Instructor: " + course.instructor}
+                                        <br></br>
+                                        {"Cred:" + course.cred}
+                                    </Card.Text>
+                                    <Table striped bordered size = "sm" >
+                                        <thead>
+                                            <tr>
+                                                <th>Times</th>
+                                                <th>Location</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                            <td>
+                                            {
+                                                meetings[0].info === "available" ? 
+                                                meetings[0].days + " " + meetings[0].time :
+                                                meetings[0].description
+                                            }
+                                            </td>
+                                            <td>{location[0]}</td>
+                                            </tr>
+                                            {meetings.length > 1 && meetings.map((key,index)=>{
+                                                if(index !== 0){
+                                                    return(
+                                                        <tr key = {index}>
+                                                            <td>
+                                                                {
+                                                                    key.info === "available" ?
+                                                                    key.days + " " + key.time :
+                                                                    key.description
+                                                                }
+                                                            </td>
+                                                            {location.length > 1 &&
+                                                                <td>{location[index]}</td>
                                                             }
-                                                        </td>
-                                                        {location.length > 1 &&
-                                                            <td>{location[index]}</td>
-                                                        }
-                                                    </tr>
-                                                );
-                                            }
-                                            else{
-                                                return null;
-                                            }
-                                        })} 
-                                    </tbody>
-                                </Table>
-                            </Card.Body>
-                        </Card>
-                        </Col>
-                    );
+                                                        </tr>
+                                                    );
+                                                }
+                                                else{
+                                                    return null;
+                                                }
+                                            })} 
+                                        </tbody>
+                                    </Table>
+                                </Card.Body>
+                            </Card>
+                            </Col>
+                        );
+                    }
                 })}
                 </Row>
                 </Container>
@@ -94,10 +99,18 @@ class Block extends Component{
 
     displayUnits = () =>{
         const {selectedCourses} = this.props;
+        let courseCount = 0
+        Object.keys(this.props.selectedCourses).map(key=>{
+            if(!this.props.selectedCourses[key].isCustom){
+                courseCount++;
+            }
+            return null;
+        })
         let totalCred = 0.0;
         Object.keys(selectedCourses).map((item)=>{
             const course = selectedCourses[item];
-            totalCred += Number.parseFloat(course.cred);
+            if(!course.isCustom)
+                totalCred += Number.parseFloat(course.cred);
             return null;
         })
         return(
@@ -110,7 +123,7 @@ class Block extends Component{
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{Object.keys(selectedCourses).length}</td>
+                        <td>{courseCount}</td>
                         <td>{totalCred}</td>
                     </tr>
                 </tbody>

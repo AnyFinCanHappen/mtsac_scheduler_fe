@@ -19,7 +19,6 @@ class SaveCourseOverlay extends Component{
             username:"",
             errorMessage:""
         }
-        this.changeLoadOverlay = React.createRef();
     }
     handleChange = (event) =>{
         const {value} = event.target;
