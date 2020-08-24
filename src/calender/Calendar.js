@@ -138,7 +138,7 @@ class Calendar extends Component{
                     views = {[Views.WORK_WEEK]}
                     defaultView = {Views.WORK_WEEK}
                     defaultDate={new Date(2018, 0, 1)}
-                    min={new Date(2018, 0,1,7)}
+                    min={new Date(2018, 0,1,5)}
                     max = {new Date(2018,0,6,23)}
                     localizer={localizer}
                     step={15}
@@ -172,7 +172,7 @@ class Calendar extends Component{
                             <br/>
                         </div>
                         }
-                        Color:
+                        {"Color: "}
                         <button 
                             style = {{backgroundColor:"#" + selectedCourses[popoverData.CRN].color, color: "#" + selectedCourses[popoverData.CRN].color}} 
                             className = "button-change-color"
