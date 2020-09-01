@@ -172,7 +172,9 @@ class Calendar extends Component{
                             <br/>
                         </div>
                         }
+                        <span style = {{paddingRight: "20px"}}>
                         {"Color: "}
+                        </span>
                         <button 
                             style = {{backgroundColor:"#" + selectedCourses[popoverData.CRN].color, color: "#" + selectedCourses[popoverData.CRN].color}} 
                             className = "button-change-color"
