@@ -24,7 +24,6 @@ class Block extends Component{
                         return null
                     }
                     else{
-                        console.log(course);
                         const {meetingTimes, location} = course;
                         const {meetings} = meetingTimes;
                         return(
