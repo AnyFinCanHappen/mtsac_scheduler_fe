@@ -12,19 +12,24 @@ async function getDescription(payload){
     return response;
 }
 
+async function searchCourses(payload){
+    let response = await Socket.sendPOSTHTTP(local, Constants.searchClassesEP, payload);
+    return response;
+}
 async function saveCourses(payload){
     let response = await Socket.sendPOSTHTTP(local, Constants.saveClassesEP, payload);
-    return response
+    return response;
 }
 
 async function loadCourses(payload){
     let response = await Socket.sendPOSTHTTP(local, Constants.loadClassesEP, payload);
-    return response
+    return response;
 }
 
 export default {
     getCourses,
     saveCourses,
     loadCourses,
-    getDescription
+    getDescription,
+    searchCourses
 };

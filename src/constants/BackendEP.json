@@ -1,9 +1,10 @@
 {
     "backendURL":"https://mountieplanner.com/api",
-    "retrieveClassesEP":"search",
+    "retrieveClassesEP":"retrieve",
     "saveClassesEP":"save",
     "loadClassesEP":"load",
     "getCourseDescriptionEP":"description",
+    "searchClassesEP": "search",
     "MtSac":{
         "url": "https://prodssb.mtsac.edu",
         "searchEP":"/prod/pw_sigsched.p_process"
