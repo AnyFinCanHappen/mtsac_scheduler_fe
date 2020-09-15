@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import Courses from "../util/Courses";
 import Constants from "../constants/BackendEP.json";
-import WebScrape from "../util/WebScrape";
 
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
@@ -29,44 +28,42 @@ class SearchResults extends Component{
 
     getClassInfo = () =>{
         const payload = this.props.query;
-        Courses.getCourses(payload)
-        .then(htmlPage =>{
-            WebScrape.parseHTML(htmlPage.data)
-            .then(response =>{
-                const classes = response.classInfo;
-                const descriptions = response.classDescription;
-                const courseOrder = response.courseOrder;  
-                if(classes.length !== 0){
-                    let map = {}
-                    let classDescriptionMap = {}
-                    classes.forEach(item =>{
-                        if(map[item.name]){
-                            map[item.name].push(item);
-                        }
-                        else{
-                            map[item.name] = [];
-                            map[item.name].push(item);
-                        }
-                    });  
-                    descriptions.forEach(item =>{
-                        if(!classDescriptionMap[item.course_id]){
-                            classDescriptionMap[item.course_id] = item;
-                        }
-                    })
-                    this.setState({
-                        result:true,
-                        classDescription:classDescriptionMap,
-                        classInfo:map,
-                        courseOrder:courseOrder
-                    });
-                }
-                else{
-                    this.setState({
-                        isError:true,
-                        errorMessage:"No courses found."
-                    })
-                }
-            })
+        Courses.searchCourses(payload)
+        .then(response =>{
+            const {data} = response;
+            const classes = data.classInfo;
+            const descriptions = data.classDescription;
+            const courseOrder = data.courseOrder;  
+            if(classes.length !== 0){
+                let map = {}
+                let classDescriptionMap = {}
+                classes.forEach(item =>{
+                    if(map[item.name]){
+                        map[item.name].push(item);
+                    }
+                    else{
+                        map[item.name] = [];
+                        map[item.name].push(item);
+                    }
+                });  
+                descriptions.forEach(item =>{
+                    if(!classDescriptionMap[item.course_id]){
+                        classDescriptionMap[item.course_id] = item;
+                    }
+                })
+                this.setState({
+                    result:true,
+                    classDescription:classDescriptionMap,
+                    classInfo:map,
+                    courseOrder:courseOrder
+                });
+            }
+            else{
+                this.setState({
+                    isError:true,
+                    errorMessage:"No courses found."
+                })
+            }
         })
         .catch(err =>{
             console.log(err);
