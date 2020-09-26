@@ -17,7 +17,8 @@ class SaveCourseOverlay extends Component{
             resultCode:null,
             target:null,
             username:"",
-            errorMessage:""
+            errorMessage:"",
+            isSaveLocal:true
         }
     }
     handleChange = (event) =>{
@@ -34,7 +35,12 @@ class SaveCourseOverlay extends Component{
             showPopover:!showPopover
         });
     }
-
+    handleRadioChange = () =>{
+        const {isSaveLocal} = this.state;
+        this.setState({
+            isSaveLocal:!isSaveLocal
+        });
+    }
 
     saveCourse = () =>{
         const {selectedCourses, eventList} = this.props;
@@ -82,8 +88,40 @@ class SaveCourseOverlay extends Component{
         }
     }
 
+    saveCourseLocally = () =>{
+        const {selectedCourses, eventList} = this.props;
+        const {username} = this.state;
+        const noSpace = username.replace(/\s/g, '');
+        if(username !== "" && noSpace.length > 0){
+            const payload = {
+                selectedCourses: selectedCourses,
+                eventList: eventList,
+                username: username
+            };
+            this.setState({isSaving:true});
+            localStorage.setItem(username,JSON.stringify(payload));
+            this.setState({
+                isSaving:false,
+                resultCode:classSuccessCode
+            });
+        }
+        else{
+            this.setState({
+                isError:true,
+                errorMessage:"Please enter a username."
+            });
+        }       
+    }
+
     render(){
-        const {showPopover, target, isSaving, resultCode,isError, errorMessage} = this.state;
+        const {showPopover, target, isSaving, resultCode,isError, errorMessage,isSaveLocal} = this.state;
+        var saveFunction;
+        if(isSaveLocal){
+            saveFunction = this.saveCourseLocally;
+        }
+        else{
+            saveFunction = this.saveCourse;
+        }
         return(
             <Overlay 
             show = {showPopover} 
@@ -102,6 +140,10 @@ class SaveCourseOverlay extends Component{
                         placeholder="Enter username"
                         onChange = {this.handleChange}
                     />
+                    <div>
+                        <br></br>
+                        <input type = "checkbox" checked = {isSaveLocal === true} onClick = {this.handleRadioChange} onChange = {()=>{}}/>{" Save Locally(uncheck for shared devices)"}
+                    </div>
                     {isError &&
                     <Form.Text style = {{color:"red"}}>
                         {errorMessage}
@@ -129,7 +171,7 @@ class SaveCourseOverlay extends Component{
                         </Form.Text>
                     }
                     </Form.Group>
-                    <Button onClick = {this.saveCourse}>Save</Button>
+                    <Button onClick = {saveFunction}>Save</Button>
                 </Form>
                 </Popover.Content> 
             </Popover>

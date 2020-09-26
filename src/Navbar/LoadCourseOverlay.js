@@ -18,7 +18,8 @@ class LoadCourseOverlay extends Component{
             resultCode:null,
             target:null,
             isError:false,
-            errorMessage:""
+            errorMessage:"",
+            isLoadLocal:true
         }
     }
     handleChange = (event) =>{
@@ -33,6 +34,12 @@ class LoadCourseOverlay extends Component{
         this.setState({
             target: target,
             showPopover:!showPopover
+        });
+    }
+    handleRadioChange = () =>{
+        const{isLoadLocal} = this.state;
+        this.setState({
+            isLoadLocal:!isLoadLocal
         });
     }
     loadCourse = () =>{
@@ -67,19 +74,54 @@ class LoadCourseOverlay extends Component{
                     resultCode:404,
                     isError:true,
                     errorMessage:"Server Error."
-                })
+                });
             })          
         }
         else{
             this.setState({
                 isError:true,
                 errorMessage:"Please enter a username."
-            })
+            });
         }
     }
 
+    loadCourseLocally = () =>{
+        const {username} = this.state;
+        const noSpace = username.replace(/\s/g, '');
+        if(username !== "" && noSpace.length > 0){
+            const data = JSON.parse(localStorage.getItem(username));
+            if(data === null){
+                this.setState({
+                    isError:true,
+                    errorMessage:"Cannot find user."
+                });
+            }
+            else{
+                const {selectedCourses, eventList} = data;
+                let updateEventList = EventMaker.convertResponseIntoDate(eventList);
+                this.props.loadCourse(selectedCourses,updateEventList);
+                this.setState({
+                    resultCode:classLoadCode
+                });
+            }
+        }
+        else{
+            this.setState({
+                isError:true,
+                errorMessage:"Please enter a username."
+            })
+        }        
+    }
+
     render(){
-        const {showPopover, target, isLoading, resultCode, isError, errorMessage} = this.state;
+        const {showPopover, target, isLoading, resultCode, isError, errorMessage,isLoadLocal} = this.state;
+        var loadFunction;
+        if(isLoadLocal){
+            loadFunction = this.loadCourseLocally;
+        }
+        else{
+            loadFunction = this.loadCourse;
+        }
         return(
             <Overlay 
             show = {showPopover} 
@@ -98,6 +140,10 @@ class LoadCourseOverlay extends Component{
                         placeholder="Enter username"
                         onChange = {this.handleChange}
                     />
+                    <div>
+                        <br></br>
+                        <input type = "checkbox" checked = {isLoadLocal === true} onClick = {this.handleRadioChange} onChange = {()=>{}}/>{" Load Locally(uncheck for shared devices)"}
+                    </div>
                     {isError &&
                     <Form.Text style = {{color:"red"}}>
                         {errorMessage}
@@ -118,7 +164,7 @@ class LoadCourseOverlay extends Component{
                         </Form.Text>
                     }
                     </Form.Group>
-                    <Button onClick = {this.loadCourse}>Load</Button>
+                    <Button onClick = {loadFunction}>Load</Button>
                 </Form>
                 </Popover.Content> 
             </Popover>
