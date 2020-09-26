@@ -55,6 +55,7 @@ class LoadCourseOverlay extends Component{
                     let updateEventList = EventMaker.convertResponseIntoDate(eventList);
                     this.props.loadCourse(selectedCourses,updateEventList);
                     this.setState({
+                        isError:false,
                         isLoading:false,
                         resultCode:classLoadCode
                     })
@@ -101,6 +102,7 @@ class LoadCourseOverlay extends Component{
                 let updateEventList = EventMaker.convertResponseIntoDate(eventList);
                 this.props.loadCourse(selectedCourses,updateEventList);
                 this.setState({
+                    isError:false,
                     resultCode:classLoadCode
                 });
             }

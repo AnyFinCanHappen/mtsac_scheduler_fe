@@ -98,9 +98,9 @@ class SaveCourseOverlay extends Component{
                 eventList: eventList,
                 username: username
             };
-            this.setState({isSaving:true});
             localStorage.setItem(username,JSON.stringify(payload));
             this.setState({
+                isError:false,
                 isSaving:false,
                 resultCode:classSuccessCode
             });
