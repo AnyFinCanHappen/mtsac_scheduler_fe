@@ -1,7 +1,7 @@
 import Socket from "./socket"
 import Constants from "../constants/BackendEP.json"
 
-let local = "http://localhost:3001/api/";   //used for development
+//let local = "http://localhost:3001/api/";   //used for development
 async function getCourses(payload){
     let response = await Socket.sendPOSTHTTP(Constants.backendURL, Constants.retrieveClassesEP,payload);
     return response;
