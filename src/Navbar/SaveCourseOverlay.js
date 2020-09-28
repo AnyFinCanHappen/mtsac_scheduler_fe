@@ -153,7 +153,7 @@ class SaveCourseOverlay extends Component{
                         <br></br>
                         i.e mountie@student.mtsac.edu
                         <br></br>
-                        use "mountie"
+                        use "mountie" for nonlocal saves.
                     </Form.Text>
                     {isSaving &&
                         <Form.Text>
