@@ -15,7 +15,4 @@ Web app that will help students schedule their classes.
     ```
     Now you should be able to see the webpage by typing in **http://localhost:3000** in your browser. 
     
-    Development webpage cannot access backend API due to certificate issues, will fix later.
-    (sorry for the inconvenience).
-    
     From here, you are ready for development!
