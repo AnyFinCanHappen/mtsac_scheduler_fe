@@ -17,9 +17,11 @@ class Info extends Component{
                         New Features
                     </div>
                     <p>
+                        -Can save schedules locally.
+                        <br></br>
                         -Users can now make custom events.
                         <br></br>
-                        -Can now change event colors in calander (custom events coming soon).
+                        -Can now change event colors in calander.
                     </p>
                     <div className = "section-title">
                         Planned Features
@@ -29,9 +31,8 @@ class Info extends Component{
                       <br></br>
                       2) Mobile version (do not go on this website on your phone, save your eyes)
                       <br></br>
-                      3) Fix course descrition format
+                      3) Fix course description format
                       <br></br>
-                      4) Users can choose to save calander locally or on cloud (currently, can only save on the cloud)  
                     </p>
                     <div className = "section-title">
                         About Me and The Mountie Planner.
