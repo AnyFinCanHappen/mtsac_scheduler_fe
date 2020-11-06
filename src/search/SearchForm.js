@@ -46,8 +46,8 @@ class SearchForm extends Component{
         super(props);
         this.state = {
             query : {
-                TERM:"202020",
-                TERM_DESC: "Fall+2020",
+                TERM:"202030",
+                TERM_DESC: "Winter+2021",
                 sel_subj: ["dummy"],
                 //Below fields cannot be modified by the user.
                 sel_day: "dummy",
