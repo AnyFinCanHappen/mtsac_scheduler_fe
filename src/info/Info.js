@@ -27,11 +27,13 @@ class Info extends Component{
                         Planned Features
                     </div>
                     <p>
-                      1) More Search Options
+                      1) More Search Options.
                       <br></br>
-                      2) Mobile version (do not go on this website on your phone, save your eyes)
+                      2) Mobile version (usable, but not visually pleasing).
                       <br></br>
-                      3) Fix course description format
+                      3) Fix course descripition format.
+                      <br></br>
+                      Note: Right now I am working, so updates will come out slowly.
                       <br></br>
                     </p>
                     <div className = "section-title">
