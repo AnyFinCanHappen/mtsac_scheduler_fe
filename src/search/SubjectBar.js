@@ -9,7 +9,7 @@ class SubjectBar extends Component{
     constructor(props){
         super(props);
         this.state = {
-            sel_subj : ""
+            sel_subj : this.props.subjectTitle
         }
     }
 
@@ -30,7 +30,7 @@ class SubjectBar extends Component{
     }
     subjectMenu = () =>{
         const {Subjects} = Subject;
-        const {sel_subj} = this.state;
+        const sel_subj = this.props.subjectTitle;
         let title = "";
         if(sel_subj === ""){
             title = "Select Department."

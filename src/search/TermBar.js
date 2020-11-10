@@ -7,7 +7,7 @@ class TermBar extends Component{
     constructor(props){
         super(props);
         this.state = {
-            Term:"202030"
+            Term: this.props.termID
         }
     }
 
@@ -29,7 +29,7 @@ class TermBar extends Component{
     termMenu = () => {
         const {TermDesc} = Terms;
         const keyList = this.keysIntoList();
-        const {Term} = this.state;
+        const Term = this.props.termID;
         return(
             <DropDown onSelect = {this.handleSelect}>
                 <DropDown.Toggle  className = "dropdown-search" style = {{backgroundColor: "white", color:"black"}}>

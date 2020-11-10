@@ -41,48 +41,48 @@ import "../css/nav_bar.css"
     }
 */
 
+const defaultQuery = {
+    TERM:"202030",
+    TERM_DESC: "Winter+2021",
+    sel_subj: ["dummy"],
+    //Below fields cannot be modified by the user.
+    sel_day: "dummy",
+    sel_schd: "dummy",
+    sel_camp: [ "dummy", "MS" ],
+    sel_ism: "dummy",
+    sel_sess: "dummy",
+    sel_instr: [ "dummy", "%25" ],
+    sel_ptrm: [ "dummy", "%25" ],
+    sel_attr: [ "%25", "%25" ],
+    sel_crse: "",
+    sel_crn: "",
+    sel_title: "",
+    begin_hh: "5",
+    begin_mi: "0",
+    begin_ap: "a",
+    end_hh: "11",
+    end_mi: "0",
+    end_ap: "p",
+    month: "%25",
+    aa: "N",
+    pr: "N",
+    tod: "A",
+    line: "D",
+    nco: "N",
+    crsz: "%25"    
+}
+
 class SearchForm extends Component{
     constructor(props){
         super(props);
         this.state = {
-            query : {
-                TERM:"202030",
-                TERM_DESC: "Winter+2021",
-                sel_subj: ["dummy"],
-                //Below fields cannot be modified by the user.
-                sel_day: "dummy",
-                sel_schd: "dummy",
-                sel_camp: [ "dummy", "MS" ],
-                sel_ism: "dummy",
-                sel_sess: "dummy",
-                sel_instr: [ "dummy", "%25" ],
-                sel_ptrm: [ "dummy", "%25" ],
-                sel_attr: [ "%25", "%25" ],
-                sel_crse: "",
-                sel_crn: "",
-                sel_title: "",
-                begin_hh: "5",
-                begin_mi: "0",
-                begin_ap: "a",
-                end_hh: "11",
-                end_mi: "0",
-                end_ap: "p",
-                month: "%25",
-                aa: "N",
-                pr: "N",
-                tod: "A",
-                line: "D",
-                nco: "N",
-                crsz: "%25"
-            },
+            query:defaultQuery,
             isSearch:false,
             isError:false,
             subjectTitle : "",
             errorMessage:""
         }
     }
-
-
 
     setTerm = (TermID) =>{
         const {TermDesc} = Terms;
@@ -154,14 +154,24 @@ class SearchForm extends Component{
         }
     }
 
+    resetSearchQuery = () =>{
+        this.setState({
+            isSearch:false,
+            subjectTitle:"",
+            query:{
+                ...defaultQuery,
+                sel_subj:["dummy"]
+            }
+        })
+    }
     render(){
-        const {isSearch, query, isError, errorMessage} = this.state;
+        const {isSearch, query, isError, errorMessage, subjectTitle} = this.state;
         return(
             <div>
                 <Navbar variant="nav-link" sticky = "top" className = "navbar-color">
                     <Nav className='m-auto'>
                         <Nav.Item >
-                            <Nav.Link onClick = {() => {this.setState({isSearch:false})}} >
+                            <Nav.Link onClick = {this.resetSearchQuery} >
                                 Search
                             </Nav.Link>
                         </Nav.Item>
@@ -169,8 +179,8 @@ class SearchForm extends Component{
                 </Navbar>
                 {!isSearch ? 
                     <div>
-                        <TermBar setTerm = {this.setTerm}/>
-                        <SubjectBar setSubject = {this.setSubject} setSubjectTitle = {this.setSubjectTitle}/>
+                        <TermBar setTerm = {this.setTerm} termID = {query.TERM}/>
+                        <SubjectBar setSubject = {this.setSubject} setSubjectTitle = {this.setSubjectTitle} subjectTitle = {subjectTitle}/>
                         {isError && 
                             <div style = {{color:"red"}}>{errorMessage}</div>
                         }
