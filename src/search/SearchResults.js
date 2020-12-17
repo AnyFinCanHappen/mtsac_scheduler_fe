@@ -153,10 +153,10 @@ class SearchResults extends Component{
                             else{
                                 rowColor = "white";
                             }
-                            let randomNum = Math.floor(Math.random() * 100) + Number.parseInt(index);
-                            
+                            let randomNum = Math.floor(Math.random() * 1000) + Number.parseInt(index);
+                            let tableKey = key.CRN + randomNum;
                             return(
-                                <tbody key = {key.CRN + randomNum} >
+                                <tbody key = {tableKey} >
                                     <tr style = {{backgroundColor:rowColor, fontSize:"14px", fontFamily:"Roboto"}}>
                                         <td>
                                             {
@@ -190,7 +190,7 @@ class SearchResults extends Component{
                                         <td style = {{color:enrollmentStatusColor}}>{key.status}</td>
                                     </tr>
                                     {meetings.length > 1 && meetings.map((key,index) => {
-                                        randomNum = Math.floor(Math.random() * 100) + index;
+                                        randomNum = Math.floor(Math.random() * 1000) + index;
                                         if(index !== 0){
                                             return(
                                                 <tr key = {key.CRN + randomNum} style = {{backgroundColor:rowColor, fontSize:"14px", fontFamily:"Roboto"}}>
