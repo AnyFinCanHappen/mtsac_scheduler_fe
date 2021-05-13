@@ -42,8 +42,8 @@ import "../css/nav_bar.css"
 */
 
 const defaultQuery = {
-    TERM: Terms.Term.Spring2021,
-    TERM_DESC: Terms.TermDesc[Terms.Term.Spring2021],
+    TERM: Terms.Term.Summer2021,
+    TERM_DESC: Terms.TermDesc[Terms.Term.Summer2021],
     sel_subj: ["dummy"],
     //Below fields cannot be modified by the user.
     sel_day: "dummy",
