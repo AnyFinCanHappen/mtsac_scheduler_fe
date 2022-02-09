@@ -72,6 +72,18 @@ const defaultQuery = {
     crsz: "%25"    
 }
 
+class SearchForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      query: defaultQuery,
+      isSearch: false,
+      isError: false,
+      subjectTitle: '',
+      errorMessage: '',
+    };
+  }
+
   setTerm = (TermID) => {
     const { TermDesc } = Terms;
     const term_desc = String(TermDesc[TermID]).replace(' ', '+');
