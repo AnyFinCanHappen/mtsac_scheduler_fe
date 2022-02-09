@@ -1,31 +1,34 @@
-.btn-description{
-    background-color:#F17171;
-    border-color: #F17171;
-    font-family:"Arial",sans-serif;
+.btn-description {
+  background-color: #f17171;
+  border-color: #f17171;
+  font-family: 'Arial', sans-serif;
 }
 
-
-.btn-description:focus, .btn-description:active, .btn-description:hover{
-    background-color: #F17171;
-    text-decoration: none;
-    border-color:white;   
+.btn-description:focus,
+.btn-description:active,
+.btn-description:hover {
+  background-color: #f17171;
+  text-decoration: none;
+  border-color: white;
 }
 
-.btn-add{
-    background-color:transparent;
-    border-color: transparent;
-    color:grey;
+.btn-add {
+  background-color: transparent;
+  border-color: transparent;
+  color: grey;
 }
 
-.btn-add:hover,.btn-add:active, .btn-add:focus{
-    background-color: transparent;
-    border-color: grey;
-    color:grey;
+.btn-add:hover,
+.btn-add:active,
+.btn-add:focus {
+  background-color: transparent;
+  border-color: grey;
+  color: grey;
 }
 
-.loading-text{
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.loading-text {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

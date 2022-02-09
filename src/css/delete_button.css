@@ -1,17 +1,17 @@
-.btn-delete{
-    float: right;
-    background-color: transparent;
-    inline-size: auto;
-    color:grey;
-    border-color: transparent;
+.btn-delete {
+  float: right;
+  background-color: transparent;
+  inline-size: auto;
+  color: grey;
+  border-color: transparent;
 }
 
 .btn-delete:hover {
-    background-color: transparent !important;
-    text-decoration: none;
-    color: grey;
+  background-color: transparent !important;
+  text-decoration: none;
+  color: grey;
 }
 
-.trashbin{
-    height: 16px;
+.trashbin {
+  height: 16px;
 }

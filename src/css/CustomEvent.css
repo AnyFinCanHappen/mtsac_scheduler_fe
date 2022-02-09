@@ -1,25 +1,26 @@
-.dropdown-event{
-    background-color:white;
-    color:black;
-    border-color:black;
+.dropdown-event {
+  background-color: white;
+  color: black;
+  border-color: black;
 }
 
-.dropdown-event:focus, .dropdown-event:active, .dropdown-event:hover{
-    background-color:white !important;
-    border-color:black;
-    color:black !important;
+.dropdown-event:focus,
+.dropdown-event:active,
+.dropdown-event:hover {
+  background-color: white !important;
+  border-color: black;
+  color: black !important;
 }
-
 
 .dropdown-menu-event {
-    height: 406px;
-    overflow-y: scroll;
+  height: 406px;
+  overflow-y: scroll;
 }
 
-.dropdown-menu-midday{
-    height:80px;
+.dropdown-menu-midday {
+  height: 80px;
 }
 
-.inline{
-    display:inline-block;
+.inline {
+  display: inline-block;
 }
