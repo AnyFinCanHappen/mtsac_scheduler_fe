@@ -42,47 +42,35 @@ import '../css/nav_bar.css';
 */
 
 const defaultQuery = {
-  TERM: Terms.Term.Summer2021,
-  TERM_DESC: Terms.TermDesc[Terms.Term.Summer2021],
-  sel_subj: ['dummy'],
-  //Below fields cannot be modified by the user.
-  sel_day: 'dummy',
-  sel_schd: 'dummy',
-  sel_camp: ['dummy', 'MS'],
-  sel_ism: 'dummy',
-  sel_sess: 'dummy',
-  sel_instr: ['dummy', '%25'],
-  sel_ptrm: ['dummy', '%25'],
-  sel_attr: ['%25', '%25'],
-  sel_crse: '',
-  sel_crn: '',
-  sel_title: '',
-  begin_hh: '5',
-  begin_mi: '0',
-  begin_ap: 'a',
-  end_hh: '11',
-  end_mi: '0',
-  end_ap: 'p',
-  month: '%25',
-  aa: 'N',
-  pr: 'N',
-  tod: 'A',
-  line: 'D',
-  nco: 'N',
-  crsz: '%25',
-};
-
-class SearchForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      query: defaultQuery,
-      isSearch: false,
-      isError: false,
-      subjectTitle: '',
-      errorMessage: '',
-    };
-  }
+    TERM: Terms.Term.Spring2022,
+    TERM_DESC: Terms.TermDesc[Terms.Term.Spring2022],
+    sel_subj: ["dummy"],
+    //Below fields cannot be modified by the user.
+    sel_day: "dummy",
+    sel_schd: "dummy",
+    sel_camp: [ "dummy", "MS" ],
+    sel_ism: "dummy",
+    sel_sess: "dummy",
+    sel_instr: [ "dummy", "%25" ],
+    sel_ptrm: [ "dummy", "%25" ],
+    sel_attr: [ "%25", "%25" ],
+    sel_crse: "",
+    sel_crn: "",
+    sel_title: "",
+    begin_hh: "5",
+    begin_mi: "0",
+    begin_ap: "a",
+    end_hh: "11",
+    end_mi: "0",
+    end_ap: "p",
+    month: "%25",
+    aa: "N",
+    pr: "N",
+    tod: "A",
+    line: "A",
+    nco: "N",
+    crsz: "%25"    
+}
 
   setTerm = (TermID) => {
     const { TermDesc } = Terms;
