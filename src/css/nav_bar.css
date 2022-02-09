@@ -1,23 +1,22 @@
-.navbar-main{
+.navbar-main {
   background-color: rgb(0, 0, 80);
 }
 
-
-.nav-link{
+.nav-link {
   color: white;
 }
 
-.nav-link:hover{
+.nav-link:hover {
   color: white;
-  font-weight:bold;
+  font-weight: bold;
 }
 
-.navbar-color{
+.navbar-color {
   background-color: rgb(180, 68, 68);
 }
 
-.course-count{
-  color:white;
+.course-count {
+  color: white;
   vertical-align: top;
   border-radius: 60%;
   background-color: #c67605;
