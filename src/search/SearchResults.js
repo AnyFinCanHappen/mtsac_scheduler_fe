@@ -7,6 +7,8 @@ import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import { TransverseLoading } from 'react-loadingg';
+import store from '../redux/store';
+import EventActions from '../redux/eventActions';
 
 import '../css/search_result.css';
 
@@ -25,6 +27,10 @@ class SearchResults extends Component {
   componentDidMount() {
     this.getClassInfo();
   }
+
+  pushCourse = (e, course) => {
+    store.dispatch(EventActions.pushEventAction(course));
+  };
 
   getClassInfo = () => {
     const payload = this.props.query;
@@ -175,7 +181,8 @@ class SearchResults extends Component {
                         <Button
                           size="sm"
                           className="btn-add"
-                          onClick={(e) => this.props.pushCourse(e, key)}
+                          // onClick={(e) => this.props.pushCourse(e, key)}
+                          onClick={(e) => this.pushCourse(e, key)}
                         >
                           +
                         </Button>

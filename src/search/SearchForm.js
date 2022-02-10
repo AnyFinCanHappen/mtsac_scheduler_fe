@@ -42,8 +42,8 @@ import '../css/nav_bar.css';
 */
 
 const defaultQuery = {
-  TERM: Terms.Term.Summer2021,
-  TERM_DESC: Terms.TermDesc[Terms.Term.Summer2021],
+  TERM: Terms.Term.Spring2022,
+  TERM_DESC: Terms.TermDesc[Terms.Term.Spring2022],
   sel_subj: ['dummy'],
   //Below fields cannot be modified by the user.
   sel_day: 'dummy',
@@ -67,7 +67,7 @@ const defaultQuery = {
   aa: 'N',
   pr: 'N',
   tod: 'A',
-  line: 'D',
+  line: 'A',
   nco: 'N',
   crsz: '%25',
 };
@@ -190,7 +190,7 @@ class SearchForm extends Component {
           </div>
         ) : (
           <div>
-            <SearchResults query={query} pushCourse={this.props.pushCourse} />
+            <SearchResults query={query} />
           </div>
         )}
       </div>

@@ -5,7 +5,8 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Courses from '../util/Courses';
 import EventMaker from '../util/EventMaker';
-
+import store from '../redux/store';
+import EventActions from '../redux/eventActions';
 const classLoadCode = 320;
 
 class LoadCourseOverlay extends Component {
@@ -53,7 +54,9 @@ class LoadCourseOverlay extends Component {
           if (response.data.resultCode === classLoadCode) {
             const { selectedCourses, eventList } = response.data.courses;
             let updateEventList = EventMaker.convertResponseIntoDate(eventList);
-            this.props.loadCourse(selectedCourses, updateEventList);
+            store.dispatch(
+              EventActions.loadEventAction(selectedCourses, updateEventList)
+            );
             this.setState({
               isError: false,
               isLoading: false,
@@ -97,7 +100,9 @@ class LoadCourseOverlay extends Component {
       } else {
         const { selectedCourses, eventList } = data;
         let updateEventList = EventMaker.convertResponseIntoDate(eventList);
-        this.props.loadCourse(selectedCourses, updateEventList);
+        store.dispatch(
+          EventActions.loadEventAction(selectedCourses, updateEventList)
+        );
         this.setState({
           isError: false,
           resultCode: classLoadCode,

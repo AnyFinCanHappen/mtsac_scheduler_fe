@@ -4,6 +4,8 @@ import Popover from 'react-bootstrap/Popover';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
+import store from '../redux/store';
+import EventActions from '../redux/eventActions';
 import '../css/CustomEvent.css';
 
 function listOfTimeUnits(n) {
@@ -135,7 +137,7 @@ class CustomEventOverlay extends Component {
         isThursday: isThursday,
         isFriday: isFriday,
       };
-      this.props.pushCustomEvent(event);
+      store.dispatch(EventActions.pushCustomEventAction(event));
       this.resetToDefaultState();
     }
   };

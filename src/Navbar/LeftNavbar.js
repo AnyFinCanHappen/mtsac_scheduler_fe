@@ -4,21 +4,40 @@ import Nav from 'react-bootstrap/Nav';
 import LoadCourseOverlay from './LoadCourseOverlay';
 import SaveCourseOverlay from './SaveCourseOverlay';
 import CustomEventOverlay from './CustomEventOverlay';
+import store from '../redux/store';
 import '../css/nav_bar.css';
 
 class LeftNavbar extends Component {
+  subscription;
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      selectedCourses: {},
+      eventList: [],
+    };
     this.changeLoadOverlay = React.createRef();
     this.changeSaveOverlay = React.createRef();
     this.changeCustomOverlay = React.createRef();
   }
 
+  componentDidMount() {
+    this.subscription = store.subscribe(() => {
+      const { selectedCourses, eventList } = store.getState().events;
+      this.setState({
+        selectedCourses,
+        eventList,
+      });
+    });
+  }
+
+  componentWillUnmount() {
+    this.subscription();
+  }
   render() {
+    const { selectedCourses, eventList } = this.state;
     let courseCount = 0;
-    Object.keys(this.props.selectedCourses).map((key) => {
-      if (!this.props.selectedCourses[key].isCustom) {
+    Object.keys(selectedCourses).map((key) => {
+      if (!selectedCourses[key].isCustom) {
         courseCount++;
       }
       return null;
@@ -72,17 +91,11 @@ class LeftNavbar extends Component {
         </Navbar>
         <SaveCourseOverlay
           ref={this.changeSaveOverlay}
-          selectedCourses={this.props.selectedCourses}
-          eventList={this.props.eventList}
+          selectedCourses={selectedCourses}
+          eventList={eventList}
         ></SaveCourseOverlay>
-        <LoadCourseOverlay
-          ref={this.changeLoadOverlay}
-          loadCourse={this.props.loadCourse}
-        ></LoadCourseOverlay>
-        <CustomEventOverlay
-          ref={this.changeCustomOverlay}
-          pushCustomEvent={this.props.pushCustomEvent}
-        ></CustomEventOverlay>
+        <LoadCourseOverlay ref={this.changeLoadOverlay}></LoadCourseOverlay>
+        <CustomEventOverlay ref={this.changeCustomOverlay}></CustomEventOverlay>
       </>
     );
   }
