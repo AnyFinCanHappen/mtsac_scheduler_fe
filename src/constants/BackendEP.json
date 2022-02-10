@@ -1,15 +1,15 @@
 {
-    "backendURL": "http://localhost:3001/api",
-    "retrieveClassesEP":"retrieve",
-    "saveClassesEP":"save",
-    "loadClassesEP":"load",
-    "getCourseDescriptionEP":"description",
-    "searchClassesEP": "search",
-    "MtSac":{
-        "url": "https://prodssb.mtsac.edu",
-        "searchEP":"/prod/pw_sigsched.p_process"
-    },
-    "RMP":{
-        "url": "https://www.ratemyprofessors.com/search.jsp?queryBy=teacherName&schoolName=mt.+san+antonio+college&queryoption=HEADER&facetSearch=true&query="
-    }
+  "backendURL": "http://localhost:3001/api",
+  "retrieveClassesEP": "retrieve",
+  "saveClassesEP": "save",
+  "loadClassesEP": "load",
+  "getCourseDescriptionEP": "description",
+  "searchClassesEP": "search",
+  "MtSac": {
+    "url": "https://prodssb.mtsac.edu",
+    "searchEP": "/prod/pw_sigsched.p_process"
+  },
+  "RMP": {
+    "url": "https://www.ratemyprofessors.com/search.jsp?queryBy=teacherName&schoolName=mt.+san+antonio+college&queryoption=HEADER&facetSearch=true&query="
+  }
 }

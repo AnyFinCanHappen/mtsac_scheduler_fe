@@ -13,7 +13,6 @@ import EventActions from '../redux/eventActions';
 import '../css/search_result.css';
 
 class SearchResults extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -30,10 +29,8 @@ class SearchResults extends Component {
   }
 
   pushCourse = (e, course) => {
-    const {pushCourse} = this.props;
-    pushCourse(e, course);
     store.dispatch(EventActions.pushEventAction(course));
-  }
+  };
 
   getClassInfo = () => {
     const payload = this.props.query;

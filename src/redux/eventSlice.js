@@ -5,6 +5,7 @@ import {
   LoadEventActionType,
   ChangeEventColorActionType,
   PushCustomEventActionType,
+  DeleteEventActionType,
 } from './eventActions';
 
 const initialState = {
@@ -48,6 +49,16 @@ export default function eventReducer(state = initialState, action) {
         };
       }
       return state;
+    }
+    case DeleteEventActionType: {
+      let { selectedCourses, eventList } = state;
+      const { crn } = action.payload;
+      delete selectedCourses[crn];
+      let updatedEventList = EventMaker.removeEvents(eventList, crn);
+      return {
+        selectedCourses: selectedCourses,
+        eventList: updatedEventList,
+      };
     }
     case ChangeEventColorActionType: {
       const { crn, color } = action.payload;

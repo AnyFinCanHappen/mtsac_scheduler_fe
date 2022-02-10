@@ -16,6 +16,7 @@ import EventColors from './constants/Colors.json';
 import store from './redux/store';
 
 class App extends Component {
+  subscription;
   constructor(props) {
     super(props);
     this.state = {
@@ -31,21 +32,23 @@ class App extends Component {
   componentDidMount() {
     this.updateHeight();
     window.addEventListener('resize', this.updateHeight);
+    this.subscription = store.subscribe(() => {
+      const { selectedCourses, eventList } = store.getState().events;
+      this.setState({
+        selectedCourses,
+        eventList,
+      });
+    });
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateHeight);
+    this.subscription();
   }
+
   updateHeight = () => {
     this.setState({ height: window.innerHeight });
   };
-  /*
-  shouldComponentUpdate(nextProps, nextState){
-    const prevSelectedCourses = this.state.selectedCourses;
-    const nextSelectedCourses = nextState.selectedCourses;
-    return Object.keys(prevSelectedCourses).length !== Object.keys(nextSelectedCourses);
-  }
-  */
 
   changeBlock = (e, input) => {
     this.setState({ isBlockForm: input });
@@ -126,10 +129,8 @@ class App extends Component {
   };
 
   render() {
-    const { isBlockForm, selectedCourses, eventList, height, showInfoPage } =
+    const { isBlockForm, height, showInfoPage, eventList, selectedCourses } =
       this.state;
-    const events = store.getState();
-    console.log(events);
     let colHeight = (height - 56).toString(10) + 'px';
     return (
       <div style={{ backgroundColor: '#a9bedf' }}>
@@ -162,29 +163,18 @@ class App extends Component {
                 className="px-0"
                 style={{ overflowY: 'auto', height: colHeight }}
               >
-                <LeftNavBar
-                  loadCourse={this.loadCourse}
-                  changeBlock={this.changeBlock}
-                  selectedCourses={selectedCourses}
-                  eventList={eventList}
-                  pushCustomEvent={this.pushCustomEvent}
-                ></LeftNavBar>
+                <LeftNavBar changeBlock={this.changeBlock}></LeftNavBar>
                 {isBlockForm ? (
-                  <Block
-                    selectedCourses={this.state.selectedCourses}
-                    deleteCourse={this.deleteCourse}
-                  ></Block>
+                  <Block selectedCourses={selectedCourses}></Block>
                 ) : (
                   <Calendar
-                    eventList={this.state.eventList}
-                    selectedCourses={this.state.selectedCourses}
-                    deleteCourse={this.deleteCourse}
-                    changeCourseColor={this.changeCourseColor}
+                    eventList={eventList}
+                    selectedCourses={selectedCourses}
                   />
                 )}
               </Col>
               <Col style={{ overflowY: 'auto', height: colHeight }}>
-                <SearchForm pushCourse={this.pushCourse} />
+                <SearchForm />
               </Col>
             </Row>
           )}

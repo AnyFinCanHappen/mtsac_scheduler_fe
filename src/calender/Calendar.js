@@ -12,6 +12,8 @@ import Button from 'react-bootstrap/Button';
 import ColorList from '../constants/Colors.json';
 import '../css/delete_button.css';
 import '../css/Calendar.css';
+import store from '../redux/store';
+import EventActions from '../redux/eventActions';
 
 const localizer = momentLocalizer(moment);
 const { colorList } = ColorList;
@@ -73,7 +75,7 @@ class Calendar extends Component {
   };
 
   handleDelete = (e, CRN) => {
-    this.props.deleteCourse(e, CRN);
+    store.dispatch(EventActions.deleteEventAction(CRN));
     this.setState({ showPopover: false, popoverData: null });
   };
 
@@ -90,7 +92,7 @@ class Calendar extends Component {
   };
 
   changeColor = (CRN, color) => {
-    this.props.changeCourseColor(CRN, color);
+    store.dispatch(EventActions.changeEventColorAction(CRN, color));
   };
 
   setColorTarget = (e) => {

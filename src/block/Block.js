@@ -8,9 +8,15 @@ import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import '../css/delete_button.css';
 import '../css/search_result.css';
+import store from '../redux/store';
+import eventActions from '../redux/eventActions';
 
 class Block extends Component {
   state = {};
+
+  handleDelete = (e, crn) => {
+    store.dispatch(eventActions.deleteEventAction(crn));
+  };
 
   displayCards = () => {
     const { selectedCourses } = this.props;
@@ -32,7 +38,7 @@ class Block extends Component {
                         <Button
                           size="sm"
                           className="btn-delete"
-                          onClick={(e) => this.props.deleteCourse(e, item)}
+                          onClick={(e) => this.handleDelete(e, item)}
                         >
                           <img
                             src="../image/trashbin2.png"

@@ -45,7 +45,7 @@ export default {
   pushEventAction,
   deleteEventAction,
   changeEventColorAction,
-  pushCustomEventAction
+  pushCustomEventAction,
 };
 export const LoadEventActionType = 'LOAD_EVENT_ACTION';
 export const PushEventActionType = 'PUSH_EVENT_ACTION';
