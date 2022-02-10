@@ -13,6 +13,7 @@ import Calendar from './calender/Calendar';
 import Block from './block/Block';
 import LeftNavBar from './Navbar/LeftNavbar';
 import EventColors from './constants/Colors.json';
+import store from './redux/store';
 
 class App extends Component {
   constructor(props) {
@@ -127,6 +128,8 @@ class App extends Component {
   render() {
     const { isBlockForm, selectedCourses, eventList, height, showInfoPage } =
       this.state;
+    const events = store.getState();
+    console.log(events);
     let colHeight = (height - 56).toString(10) + 'px';
     return (
       <div style={{ backgroundColor: '#a9bedf' }}>
